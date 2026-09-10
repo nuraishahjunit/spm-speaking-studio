@@ -136,7 +136,7 @@
                         <span class="text-xs font-extrabold uppercase px-3 py-1 bg-blue-50 text-blue-600 rounded-full inline-block mb-3">Part 1</span>
                         <h3 class="text-lg font-bold text-slate-800 mb-2">SHORT QUESTIONS</h3>
                         <p class="text-slate-500 text-xs sm:text-sm leading-relaxed mb-6">
-                            Answer a random question about yourself and familiar topics.
+                            Answer a random question about yourself and familiar topics (20 seconds max).
                         </p>
                     </div>
                     <button onclick="selectPart1()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-md text-sm transition">
@@ -190,7 +190,7 @@
             </div>
         </section>
 
-        <!-- SCREEN 5: TOPIC CONFIRMATION (Hidden Task until START) -->
+        <!-- SCREEN 5: TOPIC CONFIRMATION (Hidden Task until START - For Part 2 & Part 3) -->
         <section id="screen-topic-selected" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-lg mx-auto w-full text-center relative">
             <button onclick="navigateTo('screen-choose-topic')" class="absolute top-6 left-6 text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-1 transition">
                 ← Back
@@ -207,13 +207,13 @@
             </button>
         </section>
 
-        <!-- SCREEN 6: PREPARATION SCREEN -->
+        <!-- SCREEN 6: PREPARATION SCREEN (Part 2 & Part 3 only) -->
         <section id="screen-prep" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-2xl mx-auto w-full text-center relative">
             <button onclick="handleCancelAndBack()" class="absolute top-6 left-6 text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-1 transition">
                 ← Back
             </button>
             <div class="mb-4 pt-4">
-                <span id="prep-part-tag" class="text-xs font-extrabold uppercase tracking-widest text-blue-600 bg-blue-50 px-3 py-1 rounded-full">PART 1 • GET READY</span>
+                <span id="prep-part-tag" class="text-xs font-extrabold uppercase tracking-widest text-blue-600 bg-blue-50 px-3 py-1 rounded-full">GET READY</span>
             </div>
             <p class="text-xs text-slate-400 font-semibold uppercase mb-2">PREPARATION TIME</p>
             <div id="prep-timer-display" class="text-5xl sm:text-6xl font-black text-blue-600 font-mono tracking-tight mb-6">
@@ -234,7 +234,7 @@
             </button>
         </section>
 
-        <!-- SCREEN 7: START SPEAKING PROMPT -->
+        <!-- SCREEN 7: START SPEAKING PROMPT (Part 2 & Part 3 only) -->
         <section id="screen-start-speaking-prompt" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-lg mx-auto w-full text-center relative">
             <button onclick="handleCancelAndBack()" class="absolute top-6 left-6 text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-1 transition">
                 ← Back
@@ -266,7 +266,7 @@
             
             <!-- Recording Timer -->
             <div id="recording-timer-display" class="text-6xl sm:text-7xl font-black text-slate-900 font-mono tracking-tight mb-6">
-                00:30
+                00:20
             </div>
 
             <!-- Transition Overlay Banner for Part 3 Stage 2 -->
@@ -538,6 +538,7 @@
 
             prepTimerId: null,
             speakingTimerId: null,
+            recordingStartTime: null,   // Exact timestamp when recording started
             
             mediaRecorder: null,
             mediaStream: null,
@@ -647,7 +648,6 @@
                 const data = await response.json();
                 let extractedList = [];
 
-                // Flexible response structure extraction
                 if (Array.isArray(data)) {
                     extractedList = data;
                 } else if (data && Array.isArray(data.questions)) {
@@ -818,11 +818,12 @@
             appState.currentQuestion = randomObj.question || randomObj.topic || "Part 1 Question";
             appState.cleanPrompts = extractCleanPrompts(randomObj);
 
-            // Render Preparation Screen Content
-            document.getElementById('prep-part-tag').textContent = "PART 1 • GET READY";
-            document.getElementById('prep-question-box').innerHTML = `<p class="font-semibold text-slate-800">${appState.currentQuestion}</p>`;
+            // Set question box content for immediate display during recording
+            document.getElementById('prep-question-box').innerHTML = `<p class="font-bold text-slate-900 text-base sm:text-lg">${appState.currentQuestion}</p>`;
 
-            startPreparation(20);
+            // PART 1 REQUIRED BEHAVIOUR: NO preparation stage.
+            // Immediately request mic permission when recording is about to start, then start 20s recording.
+            initiateMicrophoneAndStart();
         }
 
         async function selectPart2() {
@@ -899,18 +900,15 @@
             navigateTo('screen-choose-topic');
         }
 
-        // When student clicks a topic card (Part 2 / Part 3)
         function onTopicChosen(topicObj) {
             appState.selectedTopicObj = topicObj;
             appState.currentQuestion = topicObj.question || topicObj.topic || "";
             appState.cleanPrompts = extractCleanPrompts(topicObj);
 
-            // Show intermediate TOPIC SELECTED screen (hides task details until START)
             document.getElementById('selected-topic-title').textContent = topicObj.topic || topicObj.title || "Selected Topic";
             navigateTo('screen-topic-selected');
         }
 
-        // Student presses START on topic confirmation screen
         function confirmStartTopic() {
             const topic = appState.selectedTopicObj;
             const prompts = appState.cleanPrompts;
@@ -1015,7 +1013,7 @@
             cleanupRecordingState();
 
             try {
-                // Microphone permission request ONLY when student clicks START SPEAKING
+                // Request microphone permission when recording is about to begin
                 const stream = await navigator.mediaDevices.getUserMedia({
                     audio: true,
                     video: false
@@ -1083,6 +1081,7 @@
 
         function startActualRecording() {
             appState.isRecording = true;
+            appState.recordingStartTime = Date.now();
             appState.mediaRecorder.start(100); // Collect timeslices
             
             navigateTo('screen-recording');
@@ -1097,18 +1096,22 @@
             const actionContainer = document.getElementById('recording-action-container');
 
             if (appState.selectedPart === 1) {
-                document.getElementById('recording-stage-title').textContent = "SPEAKING TIME";
+                document.getElementById('recording-stage-title').textContent = "PART 1 • SHORT QUESTIONS";
                 document.getElementById('recording-status-text').textContent = "🔴 RECORDING";
+                document.getElementById('recording-status-text').className = "text-xs font-extrabold uppercase tracking-wider text-red-600";
+                
+                // PART 1: Visible STOP & SUBMIT button during entire 20-second period
                 actionContainer.innerHTML = `
-                    <button onclick="stopRecordingManual()" class="w-full sm:w-auto bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-10 rounded-xl text-base shadow-lg transition">
-                        STOP RECORDING
+                    <button onclick="stopRecordingManual()" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-extrabold py-3.5 px-10 rounded-2xl text-base shadow-lg shadow-red-500/20 transition flex items-center justify-center space-x-2">
+                        <span>⏹ STOP & SUBMIT</span>
                     </button>
                 `;
-                runSpeakingTimer(30);
+                runSpeakingTimer(20);
 
             } else if (appState.selectedPart === 2) {
                 document.getElementById('recording-stage-title').textContent = "SPEAKING TIME";
                 document.getElementById('recording-status-text').textContent = "🔴 RECORDING";
+                document.getElementById('recording-status-text').className = "text-xs font-extrabold uppercase tracking-wider text-red-600";
                 actionContainer.innerHTML = `
                     <button onclick="stopRecordingManual()" class="w-full sm:w-auto bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-10 rounded-xl text-base shadow-lg transition">
                         STOP RECORDING
@@ -1125,7 +1128,6 @@
                 document.getElementById('recording-status-text').textContent = "🔴 DISCUSSION";
                 document.getElementById('recording-status-text').className = "text-xs font-extrabold uppercase tracking-wider text-red-600";
                 
-                // PART 3 TWO DISTINCT BUTTONS DURING DISCUSSION
                 actionContainer.innerHTML = `
                     <div class="flex flex-col sm:flex-row gap-3 w-full justify-center items-center">
                         <button onclick="stopAndSubmitEarly()" class="w-full sm:w-1/2 bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-4 rounded-xl text-xs sm:text-sm shadow-md transition flex items-center justify-center space-x-1">
@@ -1140,7 +1142,7 @@
             }
         }
 
-        // Standard Timer for Part 1 & Part 2
+        // Standard Timer for Part 1 (20s) & Part 2 (60s)
         function runSpeakingTimer(totalSeconds) {
             stopAllTimers();
             let remaining = totalSeconds;
@@ -1167,7 +1169,6 @@
         /* ==========================================================================
            8. PART 3 TWO-STAGE RECORDING LOGIC
            ========================================================================== */
-        // Stage 1: Discussion Timer (up to 120 seconds)
         function runPart3DiscussionTimer(maxSeconds = 120) {
             stopAllTimers();
             let remaining = maxSeconds;
@@ -1194,7 +1195,6 @@
             }, 250);
         }
 
-        // BUTTON 1: STOP & SUBMIT (Ends ENTIRE recording attempt immediately -> Review)
         function stopAndSubmitEarly() {
             stopAllTimers();
             if (appState.part3Stage === 1) {
@@ -1205,13 +1205,11 @@
             stopRecordingManual();
         }
 
-        // BUTTON 2: FINISH DISCUSSION & GO TO DECISION (Ends ONLY Discussion stage -> Decision stage)
         function finishDiscussionEarly() {
             stopAllTimers();
             transitionPart3ToDecisionStage();
         }
 
-        // Seamless Transition from Stage 1 -> Stage 2 without stopping MediaRecorder or re-requesting mic
         function transitionPart3ToDecisionStage() {
             appState.part3Stage = 2;
 
@@ -1224,7 +1222,6 @@
             statusText.textContent = "🟢 DECISION STAGE";
             statusText.className = "text-xs font-extrabold uppercase tracking-wider text-emerald-600";
             
-            // During Decision, keep STOP & SUBMIT button available
             actionContainer.innerHTML = `
                 <button onclick="stopAndSubmitEarly()" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-8 rounded-xl text-sm shadow-md transition flex items-center justify-center space-x-2">
                     <span>⏹ STOP & SUBMIT</span>
@@ -1239,7 +1236,6 @@
             }, 2500);
         }
 
-        // Stage 2: Decision Timer (60 seconds)
         function runPart3DecisionTimer(totalSeconds = 60) {
             stopAllTimers();
             let remaining = totalSeconds;
@@ -1268,6 +1264,15 @@
         function stopRecordingManual() {
             stopAllTimers();
 
+            // Calculate actual recording duration cleanly from start timestamp
+            if (appState.recordingStartTime) {
+                const actualElapsedSec = Math.max(1, Math.round((Date.now() - appState.recordingStartTime) / 1000));
+                // Only override if not already set to max by auto-expiry
+                if (!appState.recordingDuration || appState.recordingDuration < actualElapsedSec) {
+                    appState.recordingDuration = actualElapsedSec;
+                }
+            }
+
             if (appState.mediaRecorder && appState.mediaRecorder.state !== "inactive") {
                 appState.mediaRecorder.stop();
             }
@@ -1293,6 +1298,7 @@
             appState.audioChunks = [];
             appState.recordedBlob = null;
             appState.recordedAudioUrl = null;
+            appState.recordingStartTime = null;
             appState.recordingDuration = 0;
             appState.discussionDuration = 0;
             appState.decisionDuration = 0;
@@ -1322,7 +1328,7 @@
             cleanupRecordingState();
 
             if (appState.selectedPart === 1) {
-                startPreparation(20);
+                selectPart1();
             } else {
                 confirmStartTopic();
             }
@@ -1609,7 +1615,6 @@
                 renderDashboardData();
                 showToast(`Deleted submission for ${deletedItem.student || 'student'}.`, 'success');
 
-                // Send request to backend Apps Script endpoint if deletion is enabled
                 try {
                     fetch(`${GOOGLE_APPS_SCRIPT_WEB_APP_URL}?action=delete&id=${encodeURIComponent(id)}`, { method: 'GET', mode: 'no-cors' }).catch(() => {});
                 } catch (e) {
