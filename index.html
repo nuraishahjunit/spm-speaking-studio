@@ -453,13 +453,14 @@
                             <th class="p-3">Date</th>
                             <th class="p-3">Time</th>
                             <th class="p-3">Duration</th>
-                            <th class="p-3">Status</th>
+                            <th class="p-3">Audio</th>
+                            <th class="p-3 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="dashboard-table-body">
                         <!-- Populated dynamically -->
                         <tr>
-                            <td colspan="8" class="p-6 text-center text-slate-400">No submissions yet.</td>
+                            <td colspan="9" class="p-6 text-center text-slate-400">No submissions yet.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -467,6 +468,12 @@
         </section>
 
     </main>
+
+    <!-- Toast Notification Box for Alerts -->
+    <div id="toast-notification" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-xs sm:text-sm font-semibold max-w-md">
+        <span id="toast-icon">ℹ️</span>
+        <span id="toast-message">Notification message</span>
+    </div>
 
     <!-- TEACHER PASSWORD AUTHENTICATION MODAL -->
     <div id="teacher-auth-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
@@ -1337,6 +1344,29 @@
             });
         }
 
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast-notification');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+            if (!toast || !toastMsg) return;
+
+            toastMsg.textContent = message;
+            if (type === 'error') {
+                toastIcon.textContent = '⚠️';
+                toast.className = "fixed bottom-6 right-6 z-50 transform translate-y-0 opacity-100 transition-all duration-300 bg-red-600 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-xs sm:text-sm font-semibold max-w-md";
+            } else if (type === 'success') {
+                toastIcon.textContent = '✅';
+                toast.className = "fixed bottom-6 right-6 z-50 transform translate-y-0 opacity-100 transition-all duration-300 bg-emerald-600 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-xs sm:text-sm font-semibold max-w-md";
+            } else {
+                toastIcon.textContent = 'ℹ️';
+                toast.className = "fixed bottom-6 right-6 z-50 transform translate-y-0 opacity-100 transition-all duration-300 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-xs sm:text-sm font-semibold max-w-md";
+            }
+
+            setTimeout(() => {
+                toast.className = "fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-xs sm:text-sm font-semibold max-w-md";
+            }, 3500);
+        }
+
         async function submitRecording() {
             if (!appState.recordedBlob || appState.isUploading) return;
 
@@ -1351,8 +1381,10 @@
 
                 const topicTitle = appState.selectedTopicObj ? (appState.selectedTopicObj.topic || appState.selectedTopicObj.title || "Short Questions") : "Short Questions";
                 const questionId = appState.selectedTopicObj ? (appState.selectedTopicObj.id || "p1_random") : "p1_random";
+                const submissionId = 'sub_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
 
                 const payload = {
+                    id: submissionId,
                     studentName: appState.studentName,
                     className: appState.className,
                     part: `Part ${appState.selectedPart}`,
@@ -1387,7 +1419,7 @@
 
             } catch (error) {
                 console.error("Submission error:", error);
-                alert("⚠ UPLOAD FAILED\nYour recording could not be uploaded. Please try again.");
+                showToast("Upload failed. Please check your connection and try again.", "error");
             } finally {
                 appState.isUploading = false;
                 submitBtn.disabled = false;
@@ -1464,7 +1496,8 @@
         }
 
         function recordInLocalDashboard(data) {
-            localDashboardRecords.push({
+            localDashboardRecords.unshift({
+                id: data.id || ('sub_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
                 student: data.studentName,
                 class: data.className,
                 part: data.part,
@@ -1472,7 +1505,9 @@
                 date: data.date,
                 time: data.time,
                 duration: data.recordingDuration,
-                status: "Submitted"
+                status: "Submitted",
+                audioUrl: appState.recordedAudioUrl || (data.audioData ? `data:${data.mimeType || 'audio/webm'};base64,${data.audioData}` : ''),
+                fileUrl: data.fileUrl || data.driveUrl || data.url || ''
             });
         }
 
@@ -1491,9 +1526,9 @@
             
             let p1Count = 0, p2Count = 0, p3Count = 0;
             localDashboardRecords.forEach(r => {
-                if (r.part.includes('1')) p1Count++;
-                if (r.part.includes('2')) p2Count++;
-                if (r.part.includes('3')) p3Count++;
+                if (r.part && r.part.includes('1')) p1Count++;
+                if (r.part && r.part.includes('2')) p2Count++;
+                if (r.part && r.part.includes('3')) p3Count++;
             });
 
             document.getElementById('dash-total').textContent = localDashboardRecords.length;
@@ -1504,24 +1539,83 @@
             if (localDashboardRecords.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="8" class="p-6 text-center text-slate-400">No submissions yet.</td>
+                        <td colspan="9" class="p-6 text-center text-slate-400">No submissions yet.</td>
                     </tr>
                 `;
                 return;
             }
 
-            tableBody.innerHTML = localDashboardRecords.map(r => `
-                <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
-                    <td class="p-3 font-semibold text-slate-800">${r.student}</td>
-                    <td class="p-3">${r.class}</td>
-                    <td class="p-3 font-bold text-blue-600">${r.part}</td>
-                    <td class="p-3 truncate max-w-[120px]">${r.topic}</td>
-                    <td class="p-3">${r.date}</td>
-                    <td class="p-3">${r.time}</td>
-                    <td class="p-3 font-mono">${r.duration}</td>
-                    <td class="p-3"><span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full font-bold text-[10px]">✓ ${r.status}</span></td>
-                </tr>
-            `).join('');
+            tableBody.innerHTML = localDashboardRecords.map((r, index) => {
+                const audioSource = r.audioUrl || r.fileUrl || (r.audioData ? `data:${r.mimeType || 'audio/webm'};base64,${r.audioData}` : '') || r.driveUrl || r.url || '';
+                
+                let audioCell = `<span class="text-slate-400 text-xs italic">No audio</span>`;
+                if (audioSource) {
+                    audioCell = `
+                        <div class="flex items-center gap-1.5">
+                            <audio controls preload="none" class="h-8 w-44 sm:w-52 rounded-lg bg-slate-100" src="${audioSource}"></audio>
+                            ${r.fileUrl || r.driveUrl ? `<a href="${r.fileUrl || r.driveUrl}" target="_blank" title="Open in Drive" class="p-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition text-xs font-bold">🔗</a>` : ''}
+                        </div>
+                    `;
+                }
+
+                const recId = r.id || `sub_${index}`;
+
+                return `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
+                        <td class="p-3 font-semibold text-slate-800">${r.student || '-'}</td>
+                        <td class="p-3">${r.class || '-'}</td>
+                        <td class="p-3 font-bold text-blue-600">${r.part || '-'}</td>
+                        <td class="p-3 truncate max-w-[120px]">${r.topic || '-'}</td>
+                        <td class="p-3 whitespace-nowrap">${r.date || '-'}</td>
+                        <td class="p-3 whitespace-nowrap">${r.time || '-'}</td>
+                        <td class="p-3 font-mono">${r.duration || '-'}</td>
+                        <td class="p-3">${audioCell}</td>
+                        <td class="p-3 text-center">
+                            <button id="del-btn-${recId}" onclick="confirmDeleteSubmission('${recId}')" class="px-2.5 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl font-bold text-xs transition flex items-center justify-center gap-1 mx-auto" title="Delete submission">
+                                🗑️ Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function confirmDeleteSubmission(id) {
+            const btn = document.getElementById(`del-btn-${id}`);
+            if (!btn) return;
+
+            if (btn.dataset.confirm === "true") {
+                deleteSubmission(id);
+            } else {
+                btn.dataset.confirm = "true";
+                btn.className = "px-2.5 py-1.5 bg-red-600 text-white rounded-xl font-bold text-xs transition shadow-md flex items-center justify-center gap-1 mx-auto animate-pulse";
+                btn.innerHTML = "⚠️ Confirm Delete?";
+
+                setTimeout(() => {
+                    if (btn && btn.dataset.confirm === "true") {
+                        btn.dataset.confirm = "false";
+                        btn.className = "px-2.5 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl font-bold text-xs transition flex items-center justify-center gap-1 mx-auto";
+                        btn.innerHTML = "🗑️ Delete";
+                    }
+                }, 3000);
+            }
+        }
+
+        async function deleteSubmission(id) {
+            const index = localDashboardRecords.findIndex(r => (r.id && r.id === id) || (`sub_${localDashboardRecords.indexOf(r)}` === id));
+            
+            if (index !== -1) {
+                const deletedItem = localDashboardRecords.splice(index, 1)[0];
+                renderDashboardData();
+                showToast(`Deleted submission for ${deletedItem.student || 'student'}.`, 'success');
+
+                // Send request to backend Apps Script endpoint if deletion is enabled
+                try {
+                    fetch(`${GOOGLE_APPS_SCRIPT_WEB_APP_URL}?action=delete&id=${encodeURIComponent(id)}`, { method: 'GET', mode: 'no-cors' }).catch(() => {});
+                } catch (e) {
+                    // silent catch
+                }
+            }
         }
 
         async function fetchBackendDashboardData() {
@@ -1531,7 +1625,21 @@
                     const data = await res.json();
                     if (data && Array.isArray(data.submissions) && data.submissions.length > 0) {
                         localDashboardRecords.length = 0;
-                        data.submissions.forEach(item => localDashboardRecords.push(item));
+                        data.submissions.forEach((item, idx) => {
+                            localDashboardRecords.push({
+                                id: item.id || item.submissionId || `sub_remote_${idx}`,
+                                student: item.student || item.studentName,
+                                class: item.class || item.className,
+                                part: item.part,
+                                topic: item.topic || item.topicTitle,
+                                date: item.date,
+                                time: item.time,
+                                duration: item.duration || item.recordingDuration,
+                                status: "Submitted",
+                                audioUrl: item.audioUrl || item.fileUrl || item.url || item.driveUrl || (item.audioData ? `data:${item.mimeType || 'audio/webm'};base64,${item.audioData}` : ''),
+                                fileUrl: item.fileUrl || item.driveUrl || item.url || ''
+                            });
+                        });
                         renderDashboardData();
                     }
                 }
