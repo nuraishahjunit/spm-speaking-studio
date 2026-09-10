@@ -3,1459 +3,1455 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPM Speaking Studio - English Practice Platform</title>
-    
+    <title>SPM Speaking Studio</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter & Outfit -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
-            color: #0f172a;
+            color: #1e293b;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        .heading-font {
-            font-family: 'Outfit', sans-serif;
+        .animate-pulse-slow {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
-
-        /* Pulse animation for active recording button */
-        @keyframes pulse-ring {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
-
-        .recording-pulse {
-            animation: pulse-ring 2s infinite;
-        }
-
-        /* Animated sound wave bars for audio feedback */
-        .wave-bar {
-            width: 4px;
-            background-color: #ef4444;
-            border-radius: 2px;
-            animation: sound-wave 1.2s ease-in-out infinite alternate;
-        }
-
-        .wave-bar:nth-child(1) { height: 12px; animation-delay: 0.1s; }
-        .wave-bar:nth-child(2) { height: 24px; animation-delay: 0.3s; }
-        .wave-bar:nth-child(3) { height: 36px; animation-delay: 0.2s; }
-        .wave-bar:nth-child(4) { height: 18px; animation-delay: 0.4s; }
-        .wave-bar:nth-child(5) { height: 28px; animation-delay: 0.1s; }
-
-        @keyframes sound-wave {
-            0% { transform: scaleY(0.4); }
-            100% { transform: scaleY(1.3); }
-        }
-
-        /* Custom scrollbar styles */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-
-        .card-shadow {
-            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
+<body class="min-h-screen flex flex-col justify-between items-center p-3 sm:p-6 bg-slate-50">
 
-    <!-- App Navigation Header -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="showScreen('home')">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md">
-                    <i class="fa-solid font-bold fa-microphone-lines text-lg"></i>
-                </div>
-                <div>
-                    <h1 class="heading-font text-lg font-bold text-slate-900 leading-tight tracking-tight">SPM SPEAKING STUDIO</h1>
-                    <p class="text-xs text-slate-500 font-medium">SPM ENGLISH 1119/3 • GITHUB PAGES READY</p>
-                </div>
+    <!-- Header / Branding Bar -->
+    <header class="w-full max-w-4xl flex justify-between items-center mb-4 py-3 px-4 bg-white rounded-2xl shadow-sm border border-slate-100">
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('screen-welcome')">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-md">
+                S
             </div>
-            
-            <div id="header-actions" class="flex items-center space-x-2">
-                <button onclick="showScreen('teacher')" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors flex items-center space-x-1.5">
-                    <i class="fa-solid fa-chalkboard-user"></i>
-                    <span>Teacher Dashboard</span>
-                </button>
+            <div>
+                <h1 class="font-bold text-slate-800 text-base sm:text-lg leading-tight">SPM SPEAKING STUDIO</h1>
+                <p class="text-xs text-slate-500 font-medium">English Speaking Practice</p>
             </div>
         </div>
-
-        <!-- Dynamic Progress Step Bar -->
-        <div id="progress-container" class="hidden bg-slate-100 border-t border-slate-200 py-2 px-4">
-            <div class="max-w-2xl mx-auto flex items-center justify-between text-xs font-medium text-slate-500">
-                <div id="step-setup" class="flex items-center space-x-1">
-                    <span class="w-5 h-5 rounded-full bg-slate-300 text-white flex items-center justify-center text-[10px] font-bold">1</span>
-                    <span>Setup</span>
-                </div>
-                <div class="h-0.5 w-6 bg-slate-300"></div>
-                <div id="step-parts" class="flex items-center space-x-1">
-                    <span class="w-5 h-5 rounded-full bg-slate-300 text-white flex items-center justify-center text-[10px] font-bold">2</span>
-                    <span>Part</span>
-                </div>
-                <div class="h-0.5 w-6 bg-slate-300"></div>
-                <div id="step-prep" class="flex items-center space-x-1">
-                    <span class="w-5 h-5 rounded-full bg-slate-300 text-white flex items-center justify-center text-[10px] font-bold">3</span>
-                    <span>Prepare</span>
-                </div>
-                <div class="h-0.5 w-6 bg-slate-300"></div>
-                <div id="step-speak" class="flex items-center space-x-1">
-                    <span class="w-5 h-5 rounded-full bg-slate-300 text-white flex items-center justify-center text-[10px] font-bold">4</span>
-                    <span>Speak</span>
-                </div>
-                <div class="h-0.5 w-6 bg-slate-300"></div>
-                <div id="step-submit" class="flex items-center space-x-1">
-                    <span class="w-5 h-5 rounded-full bg-slate-300 text-white flex items-center justify-center text-[10px] font-bold">5</span>
-                    <span>Review</span>
-                </div>
-            </div>
+        <div id="student-badge" class="hidden sm:flex items-center space-x-2 bg-blue-50 px-3 py-1.5 rounded-full text-xs font-semibold text-blue-700 border border-blue-100">
+            <span id="badge-name">Student</span>
+            <span class="text-blue-300">•</span>
+            <span id="badge-class">Class</span>
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="flex-1 max-w-4xl w-full mx-auto p-4 md:p-6 flex flex-col justify-center">
+    <!-- Main Application Container -->
+    <main class="w-full max-w-4xl flex-1 flex flex-col justify-center">
 
-        <section id="screen-home" class="screen-view py-6 text-center space-y-6">
-            <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold">
-                <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-                <span>Google Drive Integration Active</span>
+        <!-- SCREEN 1: WELCOME PAGE -->
+        <section id="screen-welcome" class="app-screen bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 text-center flex flex-col items-center justify-center min-h-[480px]">
+            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
+                🎙️
             </div>
-
-            <div class="space-y-3 max-w-xl mx-auto">
-                <h2 class="heading-font text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-                    Practise • Record • Submit
-                </h2>
-                <p class="text-slate-600 text-base md:text-lg leading-relaxed">
-                    Build your speaking confidence for SPM English 1119/3. Your audio recordings are saved directly to your teacher's Google Drive.
-                </p>
-            </div>
-
-            <div class="bg-white rounded-2xl p-6 border border-slate-200 card-shadow max-w-md mx-auto space-y-4 text-left">
-                <div class="flex items-start space-x-3">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-semibold text-slate-800">Auto Google Drive Sync</h4>
-                        <p class="text-xs text-slate-500">Audio recordings automatically sync with teacher Google Drive & Google Sheets backend.</p>
-                    </div>
-                </div>
-                <div class="flex items-start space-x-3">
-                    <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 mt-0.5">
-                        <i class="fa-solid fa-clock"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-semibold text-slate-800">Official Exam Timers</h4>
-                        <p class="text-xs text-slate-500">Exact prep & response timing to build realistic examination pace.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-                <button onclick="showScreen('setup')" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg shadow-blue-600/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-2">
-                    <i class="fa-solid fa-play"></i>
-                    <span>START PRACTICE</span>
-                </button>
-                <button onclick="showScreen('teacher')" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition-colors flex items-center justify-center space-x-2">
-                    <i class="fa-solid fa-chalkboard-user"></i>
-                    <span>TEACHER DASHBOARD</span>
-                </button>
-            </div>
+            <span class="text-xs font-extrabold uppercase tracking-widest text-blue-600 bg-blue-50 px-3 py-1 rounded-full mb-3">Welcome To</span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">SPM SPEAKING STUDIO</h1>
+            <p class="text-sm font-bold text-blue-600 tracking-wide uppercase mb-4">SPM English Speaking Practice</p>
+            <p class="text-slate-600 max-w-md text-sm sm:text-base leading-relaxed mb-8">
+                Practise your speaking skills, record your answers and build your confidence for SPM.
+            </p>
+            <button onclick="handleStartClick()" class="w-full max-w-xs bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-4 px-8 rounded-2xl text-lg shadow-lg shadow-blue-500/25 transition-all duration-150 transform hover:-translate-y-0.5">
+                START
+            </button>
+            <p class="text-xs text-slate-400 mt-6 max-w-xs leading-normal">
+                💡 Note: Use Chrome or Safari and make sure your device has a working microphone.
+            </p>
+            <button onclick="openTeacherDashboard()" class="mt-8 text-xs font-semibold text-slate-500 hover:text-blue-600 underline decoration-slate-300 underline-offset-4">
+                TEACHER DASHBOARD
+            </button>
         </section>
 
-        <section id="screen-setup" class="screen-view hidden max-w-md mx-auto w-full py-4 space-y-6">
-            <div class="text-center space-y-1">
-                <h2 class="heading-font text-2xl font-bold text-slate-900">STUDENT REGISTRATION</h2>
-                <p class="text-sm text-slate-500">Enter your name and class so your teacher can review your work.</p>
+        <!-- SCREEN 2: STUDENT INFORMATION -->
+        <section id="screen-student-info" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-lg mx-auto w-full relative">
+            <button onclick="navigateTo('screen-welcome')" class="absolute top-6 left-6 text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-1 transition">
+                ← Back
+            </button>
+            <div class="mb-6 text-center pt-4">
+                <h2 class="text-2xl font-bold text-slate-900">STUDENT INFORMATION</h2>
+                <p class="text-xs text-slate-500 mt-1">Please enter your details before beginning</p>
             </div>
-
-            <div class="bg-white rounded-2xl p-6 border border-slate-200 card-shadow space-y-4">
+            <form onsubmit="handleStudentInfoSubmit(event)" class="space-y-5">
                 <div>
-                    <label for="student-name-input" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Student Full Name *</label>
-                    <input type="text" id="student-name-input" placeholder="e.g. Nur Aisyah binti Ahmad" 
-                        class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-slate-800 text-sm transition-all">
-                    <p id="name-error" class="hidden text-xs text-red-500 font-medium mt-1">Please enter your full name.</p>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2" for="input-student-name">
+                        Student Name *
+                    </label>
+                    <input type="text" id="input-student-name" required placeholder="Enter your full name" 
+                        class="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition text-slate-800 text-sm font-medium">
                 </div>
-
                 <div>
-                    <label for="student-class-input" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Class / Form *</label>
-                    <input type="text" id="student-class-input" placeholder="e.g. 5 Bestari" 
-                        class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-slate-800 text-sm transition-all">
-                    <p id="class-error" class="hidden text-xs text-red-500 font-medium mt-1">Please enter your class name.</p>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2" for="input-class-name">
+                        Class *
+                    </label>
+                    <input type="text" id="input-class-name" required placeholder="Example: 5 Bestari" 
+                        class="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition text-slate-800 text-sm font-medium">
                 </div>
-
-                <div class="pt-2 flex items-center space-x-3">
-                    <button onclick="showScreen('home')" class="w-1/3 py-3 rounded-xl border border-slate-300 text-slate-600 font-semibold text-sm hover:bg-slate-50 transition-colors">
-                        BACK
-                    </button>
-                    <button onclick="validateAndSaveStudent()" class="w-2/3 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition-all flex items-center justify-center space-x-1.5">
-                        <span>CONTINUE</span>
-                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/20 text-base transition">
+                        CONTINUE
                     </button>
                 </div>
-            </div>
+            </form>
         </section>
 
-        <section id="screen-parts" class="screen-view hidden space-y-6 py-4">
-            <div class="text-center space-y-1">
-                <h2 class="heading-font text-2xl font-bold text-slate-900">CHOOSE SPEAKING PART</h2>
-                <p class="text-sm text-slate-500">Select the task component you wish to practice.</p>
+        <!-- SCREEN 3: CHOOSE SPEAKING PART -->
+        <section id="screen-choose-part" class="app-screen hidden space-y-6">
+            <div class="flex items-center justify-between">
+                <button onclick="navigateTo('screen-student-info')" class="text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white border border-slate-200 shadow-sm transition">
+                    ← Back
+                </button>
             </div>
-
+            <div class="text-center mb-6">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">CHOOSE YOUR SPEAKING PART</h2>
+                <p class="text-slate-500 text-sm mt-1">Select one of the three SPM speaking test components</p>
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <!-- Part 1 Card -->
-                <div class="bg-white rounded-2xl p-5 border border-slate-200 card-shadow hover:border-blue-300 transition-all flex flex-col justify-between group">
-                    <div class="space-y-3">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg">1</div>
-                        <div>
-                            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Part 1</span>
-                            <h3 class="heading-font text-lg font-bold text-slate-900">GETTING TO KNOW YOU</h3>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed">
-                            Answer introductory questions about yourself, routines, hobbies, and everyday experiences.
+                <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-100 flex flex-col justify-between hover:shadow-xl transition duration-200">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase px-3 py-1 bg-blue-50 text-blue-600 rounded-full inline-block mb-3">Part 1</span>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">SHORT QUESTIONS</h3>
+                        <p class="text-slate-500 text-xs sm:text-sm leading-relaxed mb-6">
+                            Answer a random question about yourself and familiar topics.
                         </p>
-                        <div class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-100 space-y-1">
-                            <div class="flex justify-between"><span>Prep time:</span> <span class="font-semibold text-slate-700">10 seconds</span></div>
-                            <div class="flex justify-between"><span>Speaking time:</span> <span class="font-semibold text-slate-700">30 seconds</span></div>
-                        </div>
                     </div>
-                    <button onclick="startPartPractice('part1')" class="mt-5 w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow transition-colors flex items-center justify-center space-x-1.5">
-                        <span>PRACTISE PART 1</span>
-                        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    <button onclick="selectPart1()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-md text-sm transition">
+                        PART 1
                     </button>
                 </div>
 
                 <!-- Part 2 Card -->
-                <div class="bg-white rounded-2xl p-5 border border-slate-200 card-shadow hover:border-indigo-300 transition-all flex flex-col justify-between group">
-                    <div class="space-y-3">
-                        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-lg">2</div>
-                        <div>
-                            <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Part 2</span>
-                            <h3 class="heading-font text-lg font-bold text-slate-900">INDIVIDUAL LONG TURN</h3>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed">
-                            Speak individually on a given topic card using guided prompts to structure your response.
+                <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-100 flex flex-col justify-between hover:shadow-xl transition duration-200">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase px-3 py-1 bg-purple-50 text-purple-600 rounded-full inline-block mb-3">Part 2</span>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">INDIVIDUAL LONG TURN</h3>
+                        <p class="text-slate-500 text-xs sm:text-sm leading-relaxed mb-6">
+                            Choose a topic and speak continuously for one minute.
                         </p>
-                        <div class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-100 space-y-1">
-                            <div class="flex justify-between"><span>Prep time:</span> <span class="font-semibold text-slate-700">20 seconds</span></div>
-                            <div class="flex justify-between"><span>Speaking time:</span> <span class="font-semibold text-slate-700">60 seconds</span></div>
-                        </div>
                     </div>
-                    <button onclick="startPartPractice('part2')" class="mt-5 w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow transition-colors flex items-center justify-center space-x-1.5">
-                        <span>PRACTISE PART 2</span>
-                        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    <button onclick="selectPart2()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3.5 rounded-xl shadow-md text-sm transition">
+                        PART 2
                     </button>
                 </div>
 
                 <!-- Part 3 Card -->
-                <div class="bg-white rounded-2xl p-5 border border-slate-200 card-shadow hover:border-emerald-300 transition-all flex flex-col justify-between group">
-                    <div class="space-y-3">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-lg">3</div>
-                        <div>
-                            <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Part 3</span>
-                            <h3 class="heading-font text-lg font-bold text-slate-900">DISCUSSION TASK</h3>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed">
-                            Elaborate on a central mind-map topic, justify your points, and give detailed explanations.
+                <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-100 flex flex-col justify-between hover:shadow-xl transition duration-200">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full inline-block mb-3">Part 3</span>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">DISCUSSION & DECISION</h3>
+                        <p class="text-slate-500 text-xs sm:text-sm leading-relaxed mb-6">
+                            Choose a topic, discuss ideas (2 mins) and make a decision (1 min).
                         </p>
-                        <div class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-100 space-y-1">
-                            <div class="flex justify-between"><span>Prep time:</span> <span class="font-semibold text-slate-700">20 seconds</span></div>
-                            <div class="flex justify-between"><span>Speaking time:</span> <span class="font-semibold text-slate-700">120 seconds</span></div>
-                        </div>
                     </div>
-                    <button onclick="startPartPractice('part3')" class="mt-5 w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow transition-colors flex items-center justify-center space-x-1.5">
-                        <span>PRACTISE PART 3</span>
-                        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    <button onclick="selectPart3()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-md text-sm transition">
+                        PART 3
                     </button>
                 </div>
             </div>
-
-            <div class="text-center pt-2">
-                <button onclick="showScreen('setup')" class="text-xs font-semibold text-slate-500 hover:text-slate-700">
-                    <i class="fa-solid fa-arrow-left mr-1"></i> Edit Student Information
-                </button>
-            </div>
         </section>
 
-        <section id="screen-preparation" class="screen-view hidden space-y-6 py-4 max-w-2xl mx-auto w-full">
+        <!-- SCREEN 4: TOPIC SELECTION (For Part 2 and Part 3) -->
+        <section id="screen-choose-topic" class="app-screen hidden space-y-6">
             <div class="flex items-center justify-between">
-                <div>
-                    <span id="prep-part-tag" class="text-xs font-bold px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 uppercase tracking-wider">Part 1</span>
-                    <span id="prep-question-num" class="text-xs font-medium text-slate-500 ml-2">Question ID: --</span>
-                </div>
-                <div class="text-xs font-medium text-slate-500">
-                    Student: <span id="prep-student-name" class="font-semibold text-slate-800">--</span>
-                </div>
+                <button onclick="navigateTo('screen-choose-part')" class="text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white border border-slate-200 shadow-sm transition">
+                    ← Back
+                </button>
             </div>
-
-            <!-- Task Card -->
-            <div class="bg-white rounded-2xl p-6 border border-slate-200 card-shadow space-y-4">
-                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Speaking Prompt</h3>
-                <p id="prep-question-text" class="heading-font text-lg md:text-xl font-bold text-slate-800 leading-snug">--</p>
-
-                <div id="prep-prompts-container" class="hidden pt-3 border-t border-slate-100 space-y-2">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Points to include in your response:</span>
-                    <ul id="prep-prompts-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700">
-                        <!-- Prompts injected via JS -->
-                    </ul>
-                </div>
+            <div class="text-center mb-4">
+                <h2 id="topic-select-heading" class="text-2xl font-extrabold text-slate-900">CHOOSE YOUR TOPIC</h2>
+                <p class="text-slate-500 text-xs sm:text-sm mt-1">Select one topic from the choices below</p>
             </div>
-
-            <!-- Preparation Timer Box -->
-            <div class="bg-slate-900 rounded-2xl p-6 text-white text-center space-y-4 card-shadow">
-                <div class="space-y-1">
-                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">PREPARATION TIME</span>
-                    <div id="prep-timer-display" class="heading-font text-4xl md:text-5xl font-black text-amber-400 font-mono tracking-wider">
-                        00:10
-                    </div>
-                </div>
-
-                <p id="prep-instruction" class="text-xs text-slate-300">Use this time to plan your points. Press START SPEAKING when ready.</p>
-
-                <div class="pt-2">
-                    <button id="btn-start-speaking" onclick="handleStartSpeaking()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-base shadow-lg shadow-emerald-600/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-2 mx-auto">
-                        <i class="fa-solid fa-microphone text-lg"></i>
-                        <span>START SPEAKING NOW</span>
-                    </button>
-                </div>
+            <div id="topic-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Topics dynamically populated from API -->
             </div>
         </section>
 
-        <section id="screen-recording" class="screen-view hidden space-y-6 py-4 max-w-2xl mx-auto w-full">
-            <div class="bg-red-50 border border-red-200 rounded-xl px-4 py-3 flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <span class="w-3.5 h-3.5 rounded-full bg-red-600 recording-pulse"></span>
-                    <span class="heading-font font-bold text-red-600 text-sm tracking-wider uppercase">🔴 RECORDING IN PROGRESS</span>
-                </div>
-                <div class="flex items-center space-x-1 h-6">
-                    <div class="wave-bar"></div>
-                    <div class="wave-bar"></div>
-                    <div class="wave-bar"></div>
-                    <div class="wave-bar"></div>
-                    <div class="wave-bar"></div>
+        <!-- SCREEN 5: TOPIC CONFIRMATION (Hidden Task until START) -->
+        <section id="screen-topic-selected" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-lg mx-auto w-full text-center relative">
+            <button onclick="navigateTo('screen-choose-topic')" class="absolute top-6 left-6 text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-1 transition">
+                ← Back
+            </button>
+            <div class="pt-4">
+                <span class="text-xs font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full mb-4 inline-block">Topic Selected</span>
+            </div>
+            <h2 id="selected-topic-title" class="text-2xl font-bold text-slate-900 mb-6">Topic Title</h2>
+            <p class="text-slate-500 text-sm mb-8 leading-relaxed">
+                You are ready to begin. Press <strong>START</strong> to reveal your question/task and start your preparation time.
+            </p>
+            <button onclick="confirmStartTopic()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/25 text-base transition">
+                START
+            </button>
+        </section>
+
+        <!-- SCREEN 6: PREPARATION SCREEN -->
+        <section id="screen-prep" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-2xl mx-auto w-full text-center relative">
+            <button onclick="handleCancelAndBack()" class="absolute top-6 left-6 text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-1 transition">
+                ← Back
+            </button>
+            <div class="mb-4 pt-4">
+                <span id="prep-part-tag" class="text-xs font-extrabold uppercase tracking-widest text-blue-600 bg-blue-50 px-3 py-1 rounded-full">PART 1 • GET READY</span>
+            </div>
+            <p class="text-xs text-slate-400 font-semibold uppercase mb-2">PREPARATION TIME</p>
+            <div id="prep-timer-display" class="text-5xl sm:text-6xl font-black text-blue-600 font-mono tracking-tight mb-6">
+                00:20
+            </div>
+            <p class="text-xs text-slate-500 mb-6">Use this time to plan your answer.</p>
+
+            <!-- Task / Question Box -->
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-8 text-left">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Your Task:</h4>
+                <div id="prep-question-box" class="text-slate-800 font-semibold text-base sm:text-lg leading-relaxed">
+                    <!-- Dynamic Question Content -->
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-5 border border-slate-200 card-shadow space-y-2">
-                <span id="rec-part-tag" class="text-xs font-bold text-blue-600 uppercase">Part Task</span>
-                <p id="rec-question-text" class="text-sm font-semibold text-slate-800">--</p>
+            <button onclick="skipPreparation()" class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-8 rounded-xl text-sm transition">
+                SKIP PREPARATION
+            </button>
+        </section>
+
+        <!-- SCREEN 7: START SPEAKING PROMPT -->
+        <section id="screen-start-speaking-prompt" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-lg mx-auto w-full text-center relative">
+            <button onclick="handleCancelAndBack()" class="absolute top-6 left-6 text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-1 transition">
+                ← Back
+            </button>
+            <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6 shadow-inner pt-2 mt-4">
+                🎙️
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">PREPARATION COMPLETE</h2>
+            <p class="text-slate-500 text-sm mb-8">When you are ready, press the button below to start recording your answer.</p>
+            
+            <button onclick="initiateMicrophoneAndStart()" class="w-full bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-extrabold py-4 px-8 rounded-2xl text-lg shadow-lg shadow-red-500/25 transition transform hover:scale-[1.02] flex items-center justify-center space-x-2">
+                <span>🎙 START SPEAKING</span>
+            </button>
+        </section>
+
+        <!-- SCREEN 8: RECORDING SCREEN -->
+        <section id="screen-recording" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-2xl mx-auto w-full text-center relative overflow-hidden">
+            <button onclick="handleAbortRecordingAndBack()" class="absolute top-6 left-6 text-xs font-bold text-slate-500 hover:text-red-600 flex items-center gap-1 transition">
+                ← Back
+            </button>
+            <!-- Recording Status Badge -->
+            <div class="inline-flex items-center space-x-2 bg-red-50 border border-red-100 px-4 py-1.5 rounded-full mb-4 mt-4">
+                <span class="w-3 h-3 bg-red-600 rounded-full animate-pulse-slow"></span>
+                <span id="recording-status-text" class="text-xs font-extrabold uppercase tracking-wider text-red-600">🔴 RECORDING</span>
             </div>
 
-            <div class="bg-slate-900 rounded-2xl p-8 text-white text-center space-y-6 card-shadow">
-                <div class="space-y-1">
-                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">REMAINING SPEAKING TIME</span>
-                    <div id="rec-timer-display" class="heading-font text-5xl md:text-6xl font-black text-red-500 font-mono tracking-wider">
-                        00:30
-                    </div>
+            <!-- Stage Heading -->
+            <h3 id="recording-stage-title" class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-1">SPEAKING TIME</h3>
+            
+            <!-- Recording Timer -->
+            <div id="recording-timer-display" class="text-6xl sm:text-7xl font-black text-slate-900 font-mono tracking-tight mb-6">
+                00:30
+            </div>
+
+            <!-- Transition Overlay Banner for Part 3 Stage 2 -->
+            <div id="part3-transition-banner" class="hidden bg-amber-500 text-white font-bold p-4 rounded-xl mb-6 shadow-md transition-all">
+                <div class="text-base uppercase tracking-wider">STAGE 2: MAKE A DECISION</div>
+                <div class="text-xs opacity-90 mt-1">Choose the best option and explain your reasons.</div>
+            </div>
+
+            <!-- Task Display during recording -->
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-8 text-left max-h-60 overflow-y-auto">
+                <div id="recording-task-display" class="text-slate-800 text-sm sm:text-base font-medium">
+                    <!-- Dynamic task view -->
                 </div>
+            </div>
 
-                <p class="text-xs text-slate-400">Speak clearly into your microphone. Recording stops automatically when timer hits 00:00.</p>
+            <!-- Dynamic Buttons Container -->
+            <div id="recording-action-container" class="w-full flex justify-center">
+                <!-- Populated dynamically based on Part & Stage -->
+            </div>
+        </section>
 
-                <button onclick="stopRecordingByUser()" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow-lg shadow-red-600/30 transition-all flex items-center justify-center space-x-2 mx-auto">
-                    <i class="fa-solid fa-square text-xs"></i>
-                    <span>FINISH & STOP SPEAKING</span>
+        <!-- SCREEN 9: REVIEW RECORDING -->
+        <section id="screen-review" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-xl mx-auto w-full relative">
+            <button onclick="handleCancelAndBack()" class="absolute top-6 left-6 text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-1 transition">
+                ← Back
+            </button>
+            <div class="text-center mb-6 pt-4">
+                <h2 class="text-2xl font-bold text-slate-900">REVIEW YOUR ANSWER</h2>
+                <p class="text-xs text-slate-500 mt-1">Listen to your recording before submitting</p>
+            </div>
+
+            <!-- Metadata Summary Box -->
+            <div class="bg-slate-50 rounded-2xl p-5 mb-6 border border-slate-200 space-y-2 text-xs sm:text-sm">
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-500">Student:</span>
+                    <span id="review-student-name" class="font-bold text-slate-800">-</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-500">Class:</span>
+                    <span id="review-class-name" class="font-bold text-slate-800">-</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-500">Part:</span>
+                    <span id="review-part" class="font-bold text-slate-800">-</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-500">Topic / Question:</span>
+                    <span id="review-topic" class="font-bold text-slate-800 truncate max-w-[200px] sm:max-w-xs">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Duration:</span>
+                    <span id="review-duration" class="font-bold text-slate-800">-</span>
+                </div>
+            </div>
+
+            <!-- Audio Player Widget -->
+            <div class="mb-8">
+                <audio id="audio-playback" controls class="w-full rounded-xl bg-slate-100 p-2"></audio>
+            </div>
+
+            <!-- Actions -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button onclick="handleRecordAgain()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3.5 rounded-xl text-sm transition flex items-center justify-center space-x-2">
+                    <span>🔄 RECORD AGAIN</span>
+                </button>
+                <button id="btn-submit" onclick="submitRecording()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-sm shadow-lg shadow-emerald-500/20 transition flex items-center justify-center space-x-2">
+                    <span>✅ SUBMIT</span>
                 </button>
             </div>
         </section>
 
-        <section id="screen-playback" class="screen-view hidden space-y-6 py-4 max-w-2xl mx-auto w-full">
-            <div class="text-center space-y-1">
-                <h2 class="heading-font text-2xl font-bold text-slate-900">REVIEW YOUR ANSWER</h2>
-                <p class="text-sm text-slate-500">Listen to your audio recording before submitting to your teacher.</p>
+        <!-- SCREEN 10: SUBMISSION SUCCESS SCREEN -->
+        <section id="screen-success" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-lg mx-auto w-full text-center relative">
+            <button onclick="navigateTo('screen-choose-part')" class="absolute top-6 left-6 text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-1 transition">
+                ← Back
+            </button>
+            <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 mt-4">
+                ✓
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">SUBMISSION SUCCESSFUL</h2>
+            <p class="text-slate-500 text-sm mb-6">Your speaking recording has been submitted successfully.</p>
+
+            <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 mb-8 text-left text-xs sm:text-sm space-y-1.5">
+                <div><strong class="text-emerald-900">Student:</strong> <span id="success-student" class="text-emerald-800"></span></div>
+                <div><strong class="text-emerald-900">Class:</strong> <span id="success-class" class="text-emerald-800"></span></div>
+                <div><strong class="text-emerald-900">Part:</strong> <span id="success-part" class="text-emerald-800"></span></div>
+                <div><strong class="text-emerald-900">Duration:</strong> <span id="success-duration" class="text-emerald-800"></span></div>
             </div>
 
-            <div class="bg-white rounded-2xl p-6 border border-slate-200 card-shadow space-y-5">
-                <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-xl border border-slate-100">
-                    <div><span class="text-slate-400 font-medium">Student:</span> <div id="play-student" class="font-semibold text-slate-800">--</div></div>
-                    <div><span class="text-slate-400 font-medium">Class:</span> <div id="play-class" class="font-semibold text-slate-800">--</div></div>
-                    <div><span class="text-slate-400 font-medium">Speaking Part:</span> <div id="play-part" class="font-semibold text-slate-800">--</div></div>
-                    <div><span class="text-slate-400 font-medium">Duration:</span> <div id="play-duration" class="font-semibold text-slate-800">--</div></div>
-                </div>
-
-                <div>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Task Question</span>
-                    <p id="play-question" class="text-sm font-semibold text-slate-800">--</p>
-                </div>
-
-                <div class="bg-slate-100 p-4 rounded-xl border border-slate-200 flex flex-col space-y-2">
-                    <label class="text-xs font-semibold text-slate-600 flex items-center space-x-1.5">
-                        <i class="fa-solid fa-volume-high text-blue-600"></i>
-                        <span>Recorded Audio</span>
-                    </label>
-                    <audio id="audio-playback-element" controls class="w-full focus:outline-none"></audio>
-                </div>
-
-                <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
-                    <button onclick="downloadRecordedAudio()" class="w-full sm:w-1/3 py-3 rounded-xl border border-blue-300 bg-blue-50 text-blue-700 font-semibold text-xs hover:bg-blue-100 transition-colors flex items-center justify-center space-x-1.5">
-                        <i class="fa-solid fa-download text-xs"></i>
-                        <span>MUAT TURUN AUDIO</span>
-                    </button>
-                    <button onclick="handleRecordAgain()" class="w-full sm:w-1/3 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-xs hover:bg-slate-50 transition-colors flex items-center justify-center space-x-1.5">
-                        <i class="fa-solid fa-rotate-left text-xs"></i>
-                        <span>RECORD AGAIN</span>
-                    </button>
-                    <button id="btn-submit-answer" onclick="submitRecordingData()" class="w-full sm:w-1/3 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-md transition-all flex items-center justify-center space-x-1.5">
-                        <i class="fa-solid fa-paper-plane text-xs"></i>
-                        <span>SUBMIT ANSWER</span>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section id="screen-submitted" class="screen-view hidden space-y-6 py-4 max-w-xl mx-auto w-full text-center">
-            <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto shadow-md">
-                <i class="fa-solid fa-check"></i>
-            </div>
-
-            <div class="space-y-1">
-                <h2 class="heading-font text-2xl font-bold text-slate-900">✓ ANSWER SUBMITTED</h2>
-                <p class="text-sm text-slate-600">Your recording has been sent to Google Drive & Google Sheets.</p>
-            </div>
-
-            <div class="bg-white rounded-2xl p-5 border border-slate-200 card-shadow text-left space-y-3 text-xs">
-                <h4 class="font-bold text-slate-700 border-b border-slate-100 pb-2">Submission Details</h4>
-                <div class="flex justify-between"><span class="text-slate-500">Student Name:</span> <span id="sub-name" class="font-semibold text-slate-800">--</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">Class:</span> <span id="sub-class" class="font-semibold text-slate-800">--</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">Speaking Task:</span> <span id="sub-part" class="font-semibold text-slate-800">--</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">Duration:</span> <span id="sub-duration" class="font-semibold text-slate-800">--</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">Date & Time:</span> <span id="sub-datetime" class="font-semibold text-slate-800">--</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">Google Apps Script URL:</span> <span class="font-mono text-[10px] text-emerald-600 font-bold">Connected ✓</span></div>
-            </div>
-
-            <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5 text-left space-y-2">
-                <h4 class="text-xs font-bold text-blue-900 uppercase tracking-wider">Self-Reflection Checklist</h4>
-                <p class="text-xs text-blue-800">Before attempting the next task, reflect on your answer:</p>
-                <ul class="text-xs text-blue-700 space-y-1 pl-4 list-disc">
-                    <li>Did I answer all parts of the question prompt?</li>
-                    <li>Did I elaborate with relevant explanations or personal examples?</li>
-                    <li>Was my pronunciation clear and easy to understand?</li>
-                </ul>
-            </div>
-
-            <div class="flex flex-col sm:flex-row items-center gap-3 pt-2">
-                <button onclick="showScreen('parts')" class="w-full sm:w-1/2 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow transition-colors">
+            <div class="space-y-3">
+                <button onclick="restartPractice()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-sm shadow-md transition">
                     PRACTISE ANOTHER QUESTION
                 </button>
-                <button onclick="showScreen('home')" class="w-full sm:w-1/2 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-xs hover:bg-slate-50 transition-colors">
+                <button onclick="navigateTo('screen-welcome')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3.5 rounded-xl text-sm transition">
                     BACK TO HOME
                 </button>
             </div>
         </section>
 
-        <section id="screen-teacher" class="screen-view hidden space-y-6 py-4 w-full">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-4">
-                <div>
-                    <h2 class="heading-font text-2xl font-bold text-slate-900">TEACHER DASHBOARD</h2>
-                    <p class="text-xs text-slate-500">Review student practice submissions saved in browser storage.</p>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <button onclick="confirmClearAllDemoData()" class="px-3 py-2 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 text-xs font-semibold transition-colors flex items-center space-x-1">
-                        <i class="fa-solid fa-trash-can"></i>
-                        <span>Clear All Data</span>
-                    </button>
-                    <button onclick="showScreen('home')" class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors">
-                        Exit Dashboard
-                    </button>
-                </div>
+        <!-- SCREEN 11: MICROPHONE ERROR SCREEN -->
+        <section id="screen-mic-error" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-lg mx-auto w-full text-center">
+            <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6">
+                ⚠️
             </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow space-y-1">
-                    <span class="text-xs text-slate-500 font-medium">Total Submissions</span>
-                    <div id="stat-total" class="heading-font text-2xl font-bold text-slate-900">0</div>
-                </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow space-y-1">
-                    <span class="text-xs text-blue-600 font-medium">Part 1 Responses</span>
-                    <div id="stat-part1" class="heading-font text-2xl font-bold text-blue-600">0</div>
-                </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow space-y-1">
-                    <span class="text-xs text-indigo-600 font-medium">Part 2 Responses</span>
-                    <div id="stat-part2" class="heading-font text-2xl font-bold text-indigo-600">0</div>
-                </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow space-y-1">
-                    <span class="text-xs text-emerald-600 font-medium">Part 3 Responses</span>
-                    <div id="stat-part3" class="heading-font text-2xl font-bold text-emerald-600">0</div>
-                </div>
-            </div>
-
-            <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow flex flex-col md:flex-row gap-3 items-center justify-between">
-                <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto flex-1">
-                    <input type="text" id="teacher-search-input" onkeyup="filterSubmissions()" placeholder="Search student name..." 
-                        class="px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-500 w-full sm:w-48">
-                    
-                    <select id="teacher-filter-class" onchange="filterSubmissions()" class="px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-500">
-                        <option value="ALL">All Classes</option>
-                    </select>
-
-                    <select id="teacher-filter-part" onchange="filterSubmissions()" class="px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-500">
-                        <option value="ALL">All Parts</option>
-                        <option value="Part 1">Part 1</option>
-                        <option value="Part 2">Part 2</option>
-                        <option value="Part 3">Part 3</option>
-                    </select>
-                </div>
-                <button onclick="resetTeacherFilters()" class="text-xs text-slate-500 hover:text-slate-800 underline font-medium">
-                    Clear Filters
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">MICROPHONE ACCESS NEEDED</h2>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                Your browser did not allow microphone access. Please allow microphone access in your browser settings and try again.
+            </p>
+            <div class="flex space-x-3">
+                <button onclick="retryMicrophoneAccess()" class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm transition">
+                    TRY AGAIN
                 </button>
-            </div>
-
-            <div class="bg-white rounded-xl border border-slate-200 card-shadow overflow-hidden">
-                <div class="hidden md:block overflow-x-auto">
-                    <table class="w-full text-left text-xs text-slate-700">
-                        <thead class="bg-slate-50 border-b border-slate-200 uppercase font-bold text-slate-500 text-[10px]">
-                            <tr>
-                                <th class="p-3.5">Student</th>
-                                <th class="p-3.5">Class</th>
-                                <th class="p-3.5">Part</th>
-                                <th class="p-3.5">Date / Time</th>
-                                <th class="p-3.5">Duration</th>
-                                <th class="p-3.5">Audio Recording</th>
-                                <th class="p-3.5 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="teacher-table-body" class="divide-y divide-slate-100">
-                            <!-- Injected dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="teacher-card-list" class="block md:hidden divide-y divide-slate-100">
-                    <!-- Injected dynamically for mobile -->
-                </div>
-
-                <div id="teacher-empty-state" class="p-8 text-center space-y-2 hidden">
-                    <i class="fa-solid fa-folder-open text-3xl text-slate-300"></i>
-                    <p class="text-xs font-semibold text-slate-500">No student practice submissions found.</p>
-                </div>
+                <button onclick="navigateTo('screen-choose-part')" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl text-sm transition">
+                    BACK
+                </button>
             </div>
         </section>
 
-        <section id="screen-mic-error" class="screen-view hidden space-y-6 py-4 max-w-md mx-auto w-full text-center">
-            <div class="w-14 h-14 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-2xl mx-auto shadow-md">
-                <i class="fa-solid fa-microphone-slash"></i>
+        <!-- SCREEN 12: QUESTION BANK API ERROR SCREEN -->
+        <section id="screen-api-error" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-lg mx-auto w-full text-center">
+            <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6">
+                ⚠️
             </div>
-
-            <div class="space-y-2">
-                <h2 class="heading-font text-xl font-bold text-slate-900">Akses Mikrofon Terhalang</h2>
-                <p id="mic-error-message-text" class="text-xs text-slate-600 leading-relaxed">
-                    Aplikasi memerlukan kebenaran mikrofon untuk merakam jawapan anda. Sila benarkan akses mikrofon pada pelayar anda.
-                </p>
-            </div>
-
-            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-left text-xs text-amber-800 space-y-1">
-                <span class="font-bold block">Cara membenarkan mikrofon:</span>
-                <p>1. Klik ikon kunci / pelaras di sebelah URL pelayar anda (address bar).</p>
-                <p>2. Tukar tetapan Mikrofon daripada <strong>Block</strong> kepada <strong>Allow (Benarkan)</strong>.</p>
-                <p>3. Jika dipaparkan di dalam Google Sites, pastikan anda menggunakan pautan terus GitHub Pages.</p>
-            </div>
-
-            <div class="space-y-2 pt-2">
-                <button onclick="startSimulatedRecording()" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center space-x-2">
-                    <i class="fa-solid fa-flask"></i>
-                    <span>UJI DENGAN RAKAMAN DEMO (TEST MODE)</span>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">UNABLE TO LOAD QUESTIONS</h2>
+            <p id="api-error-message" class="text-slate-600 text-sm mb-6 leading-relaxed">
+                Unable to load questions. Please check your connection and try again.
+            </p>
+            <div class="flex space-x-3 justify-center">
+                <button onclick="retryFetchQuestions()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl text-sm transition">
+                    RETRY
                 </button>
+                <button onclick="navigateTo('screen-welcome')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-xl text-sm transition">
+                    HOME
+                </button>
+            </div>
+        </section>
 
-                <div class="flex items-center space-x-2">
-                    <button onclick="showScreen('preparation')" class="w-1/2 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-xs hover:bg-slate-50 transition-colors">
-                        KEMBALI
-                    </button>
-                    <button onclick="handleStartSpeaking()" class="w-1/2 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow transition-colors">
-                        CUBA LAGI
-                    </button>
+        <!-- SCREEN 13: TEACHER DASHBOARD -->
+        <section id="screen-teacher-dashboard" class="app-screen hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 max-w-4xl mx-auto w-full">
+            <div class="flex justify-between items-center mb-8 pb-4 border-b border-slate-100">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">TEACHER DASHBOARD</h2>
+                    <p class="text-xs text-slate-500">Submission monitoring and response log</p>
                 </div>
+                <button onclick="navigateTo('screen-welcome')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition">
+                    ← Back to Home
+                </button>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+                    <p class="text-xs font-bold text-blue-600 uppercase">Total Submissions</p>
+                    <p id="dash-total" class="text-2xl font-black text-blue-900 mt-1">0</p>
+                </div>
+                <div class="bg-sky-50 p-4 rounded-2xl border border-sky-100">
+                    <p class="text-xs font-bold text-sky-600 uppercase">Part 1</p>
+                    <p id="dash-part1" class="text-2xl font-black text-sky-900 mt-1">0</p>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100">
+                    <p class="text-xs font-bold text-purple-600 uppercase">Part 2</p>
+                    <p id="dash-part2" class="text-2xl font-black text-purple-900 mt-1">0</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                    <p class="text-xs font-bold text-emerald-600 uppercase">Part 3</p>
+                    <p id="dash-part3" class="text-2xl font-black text-emerald-900 mt-1">0</p>
+                </div>
+            </div>
+
+            <!-- Submissions Table Container -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-600 border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200 font-bold uppercase tracking-wider text-slate-500">
+                            <th class="p-3">Student</th>
+                            <th class="p-3">Class</th>
+                            <th class="p-3">Part</th>
+                            <th class="p-3">Topic</th>
+                            <th class="p-3">Date</th>
+                            <th class="p-3">Time</th>
+                            <th class="p-3">Duration</th>
+                            <th class="p-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dashboard-table-body">
+                        <!-- Populated dynamically -->
+                        <tr>
+                            <td colspan="8" class="p-6 text-center text-slate-400">No submissions yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
     </main>
 
-    <div id="confirm-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl">
-            <div class="flex items-center space-x-3 text-red-600">
-                <i class="fa-solid fa-triangle-exclamation text-xl"></i>
-                <h3 id="modal-title" class="heading-font font-bold text-slate-900 text-base">Confirm Action</h3>
-            </div>
-            <p id="modal-description" class="text-xs text-slate-600 leading-relaxed">
-                Are you sure you want to perform this action?
-            </p>
-            <div class="flex items-center space-x-3 pt-2">
-                <button id="modal-btn-cancel" class="w-1/2 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold text-xs hover:bg-slate-50 transition-colors">
-                    CANCEL
-                </button>
-                <button id="modal-btn-confirm" class="w-1/2 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-xs shadow transition-colors">
-                    DELETE
-                </button>
-            </div>
-        </div>
-    </div>
+    <!-- Footer -->
+    <footer class="w-full max-w-4xl text-center py-4 text-xs text-slate-400 mt-6">
+        SPM Speaking Practice Application • Hostable on GitHub Pages
+    </footer>
 
-    <!-- JavaScript Application Logic -->
     <script>
-        const RANDOMISE_QUESTIONS = true;
+        /* ==========================================================================
+           1. CONFIGURATION & ENDPOINT URLS
+           ========================================================================== */
         
-        // Pautan Google Apps Script Web App yang telah dikemas kini
+        // Exact Submission Web App URL (UNCHANGED)
         const GOOGLE_APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzQLHlqxf6hj5gTpekX2q3rkd2i9tGgQbrBffMRr8kw4TlwwduNJeM-BFT4IS_VNHuhqg/exec";
 
-        // Global State Container
-        let appState = {
-            studentName: '',
-            className: '',
-            selectedPart: 'part1',
-            currentQuestion: null,
-            usedQuestionIds: [],
-            prepRemainingSec: 0,
-            speakingRemainingSec: 0,
-            timerInterval: null,
-            mediaStream: null,
+        // Exact Question Bank API Web App URL
+        const QUESTION_BANK_API_URL = "https://script.google.com/macros/s/AKfycbw0Qt3eoBEgfI5HqbU624-nF7Yjy5lziB1x-yyVPPNrzwUPh-HH-lOpQadXIMyY1blW3A/exec";
+
+        /* ==========================================================================
+           2. CENTRAL APPLICATION STATE
+           ========================================================================== */
+        const appState = {
+            studentName: "",
+            className: "",
+            selectedPart: null,         // 1, 2, or 3
+            selectedTopicObj: null,     // Selected topic object from API
+            currentQuestion: "",        // Question string
+            cleanPrompts: [],           // Non-empty prompts/ideas array
+            
+            questions: [],              // Dynamic question bank array
+            questionsLoaded: false,
+            questionsLoading: false,
+
+            prepTimerId: null,
+            speakingTimerId: null,
+            
             mediaRecorder: null,
+            mediaStream: null,
             audioChunks: [],
+            
             recordedBlob: null,
             recordedAudioUrl: null,
-            recordedDurationSec: 0,
-            isRecording: false
-        };
+            recordingDuration: 0,       // Total accumulated seconds
 
-        const QUESTION_BANK = {
-            part1: [
-                { id: 'P1-01', question: 'What do you usually do in your free time?', preparationTime: 10, speakingTime: 30 },
-                { id: 'P1-02', question: 'Tell me about your favourite subject in school and why you like it.', preparationTime: 10, speakingTime: 30 },
-                { id: 'P1-03', question: 'How do you usually spend your weekends with your family?', preparationTime: 10, speakingTime: 30 },
-                { id: 'P1-04', question: 'What kind of sports or physical activities do you enjoy most?', preparationTime: 10, speakingTime: 30 },
-                { id: 'P1-05', question: 'Talk about a place in your town that you like to visit with friends.', preparationTime: 10, speakingTime: 30 }
-            ],
-            part2: [
-                {
-                    id: 'P2-01',
-                    question: 'Talk about a memorable celebration or event you attended recently.',
-                    prompts: ['What event it was', 'Where and when it took place', 'Who was there with you', 'Why it was memorable to you'],
-                    preparationTime: 20,
-                    speakingTime: 60
-                },
-                {
-                    id: 'P2-02',
-                    question: 'Talk about a person who inspires you.',
-                    prompts: ['Who this person is', 'How you know about them', 'What qualities they have', 'Why they inspire you'],
-                    preparationTime: 20,
-                    speakingTime: 60
-                },
-                {
-                    id: 'P2-03',
-                    question: 'Talk about a hobby or skill you would like to learn in the future.',
-                    prompts: ['What the hobby or skill is', 'Why you want to learn it', 'How you plan to practise it', 'How it will benefit you'],
-                    preparationTime: 20,
-                    speakingTime: 60
-                }
-            ],
-            part3: [
-                {
-                    id: 'P3-01',
-                    question: 'Why is it important for teenagers to lead a healthy lifestyle?',
-                    prompts: ['Prevents chronic illnesses', 'Improves mental wellness', 'Boosts academic performance', 'Encourages social activities'],
-                    preparationTime: 20,
-                    speakingTime: 120
-                },
-                {
-                    id: 'P3-02',
-                    question: 'How can modern technology help students in their learning process?',
-                    prompts: ['Access to information', 'Online collaboration', 'Interactive learning apps', 'Flexible learning pace'],
-                    preparationTime: 20,
-                    speakingTime: 120
-                }
-            ]
-        };
-
-        function initDatabase() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open('SPMSpeakingStudioDB', 1);
-                request.onupgradeneeded = (e) => {
-                    const db = e.target.result;
-                    if (!db.objectStoreNames.contains('submissions')) {
-                        db.createObjectStore('submissions', { keyPath: 'id' });
-                    }
-                };
-                request.onsuccess = (e) => resolve(e.target.result);
-                request.onerror = (e) => reject(e.target.error);
-            });
-        }
-
-        function createDemoAudioBlob() {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const sampleRate = ctx.sampleRate;
-            const duration = 3;
-            const buffer = ctx.createBuffer(1, sampleRate * duration, sampleRate);
-            const data = buffer.getChannelData(0);
-
-            for (let i = 0; i < buffer.length; i++) {
-                const t = i / sampleRate;
-                data[i] = Math.sin(2 * Math.PI * 220 * t) * Math.sin(2 * Math.PI * 2 * t) * 0.2;
-            }
-
-            const wavData = audioBufferToWav(buffer);
-            return new Blob([wavData], { type: 'audio/wav' });
-        }
-
-        function audioBufferToWav(buffer) {
-            const numOfChan = buffer.numberOfChannels;
-            const length = buffer.length * numOfChan * 2 + 44;
-            const out = new DataView(new ArrayBuffer(length));
-            let channels = [], sample = 0, offset = 0, pos = 0;
-
-            function setUint16(data) { out.setUint16(pos, data, true); pos += 2; }
-            function setUint32(data) { out.setUint32(pos, data, true); pos += 4; }
-
-            setUint32(0x46464952); // "RIFF"
-            setUint32(length - 8);
-            setUint32(0x45564157); // "WAVE"
-            setUint32(0x20746d66); // "fmt "
-            setUint32(16);
-            setUint16(1);
-            setUint16(numOfChan);
-            setUint32(buffer.sampleRate);
-            setUint32(buffer.sampleRate * 2 * numOfChan);
-            setUint16(numOfChan * 2);
-            setUint16(16);
-            setUint32(0x61746164); // "data"
-            setUint32(length - pos - 4);
-
-            for (let i = 0; i < buffer.numberOfChannels; i++) channels.push(buffer.getChannelData(i));
-
-            while (pos < length) {
-                for (let i = 0; i < numOfChan; i++) {
-                    sample = Math.max(-1, Math.min(1, channels[i][offset]));
-                    sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
-                    out.setInt16(pos, sample, true);
-                    pos += 2;
-                }
-                offset++;
-            }
-            return out.buffer;
-        }
-
-        function startSimulatedRecording() {
-            stopTimer();
-            const demoBlob = createDemoAudioBlob();
-            appState.recordedBlob = demoBlob;
+            part3Stage: 1,              // 1 = Discussion, 2 = Decision
+            discussionDuration: 0,      // Seconds in discussion
+            decisionDuration: 0,        // Seconds in decision
             
-            if (appState.recordedAudioUrl) {
-                URL.revokeObjectURL(appState.recordedAudioUrl);
-            }
-            appState.recordedAudioUrl = URL.createObjectURL(demoBlob);
-            appState.recordedDurationSec = appState.currentQuestion ? appState.currentQuestion.speakingTime : 30;
+            isRecording: false,
+            isUploading: false
+        };
 
-            setupPlaybackScreen();
-            showScreen('playback');
-        }
+        /* ==========================================================================
+           3. DYNAMIC QUESTION BANK LOADER
+           ========================================================================== */
+        async function fetchQuestionsFromBank() {
+            appState.questionsLoading = true;
 
-        async function saveSubmissionToDB(record) {
+            // Built-in SPM Question Bank fallback for offline/CORS/API schema variations
+            const fallbackQuestions = [
+                // Part 1 Questions
+                { id: "p1_1", part: "1", topic: "Daily Life", question: "What do you usually do after school?", active: true },
+                { id: "p1_2", part: "1", topic: "Hobbies", question: "What is your favourite hobby and why do you like it?", active: true },
+                { id: "p1_3", part: "1", topic: "Friends", question: "What qualities do you look for in a good friend?", active: true },
+                { id: "p1_4", part: "1", topic: "Shopping", question: "Where do you usually prefer to shop and why?", active: true },
+                { id: "p1_5", part: "1", topic: "Technology", question: "How often do you use social media and what for?", active: true },
+                
+                // Part 2 Topics
+                {
+                    id: "p2_1",
+                    part: "2",
+                    topic: "A Memorable Event",
+                    question: "Talk about a memorable event you experienced recently.",
+                    prompts: [
+                        "What the event was",
+                        "When and where it took place",
+                        "What happened during the event",
+                        "Explain why this event was memorable to you"
+                    ],
+                    active: true
+                },
+                {
+                    id: "p2_2",
+                    part: "2",
+                    topic: "An Admired Person",
+                    question: "Talk about a person you admire key qualities in.",
+                    prompts: [
+                        "Who this person is",
+                        "How you know this person",
+                        "What qualities make them special",
+                        "Explain why you admire this person"
+                    ],
+                    active: true
+                },
+                {
+                    id: "p2_3",
+                    part: "2",
+                    topic: "An Unforgettable Trip",
+                    question: "Talk about a trip or holiday you enjoyed.",
+                    prompts: [
+                        "Where you went and who was with you",
+                        "What activities you participated in",
+                        "What was the highlight of the trip",
+                        "Explain why this trip was special to you"
+                    ],
+                    active: true
+                },
+
+                // Part 3 Topics
+                {
+                    id: "p3_1",
+                    part: "3",
+                    topic: "Ways to Stay Healthy",
+                    question: "What are some effective ways for teenagers to maintain a healthy lifestyle?",
+                    prompts: ["Balanced diet", "Regular exercise", "Sufficient sleep", "Drink enough water", "Manage stress", "Limit screen time"],
+                    active: true
+                },
+                {
+                    id: "p3_2",
+                    part: "3",
+                    topic: "Protecting the Environment",
+                    question: "How can students help protect the environment at school?",
+                    prompts: ["Recycling paper & plastic", "Planting trees", "Saving electricity", "Using reusable containers", "Organising clean-up days", "Reducing waste"],
+                    active: true
+                },
+                {
+                    id: "p3_3",
+                    part: "3",
+                    topic: "Benefits of Co-Curricular Activities",
+                    question: "Why should students participate in co-curricular activities?",
+                    prompts: ["Develop leadership skills", "Make new friends", "Improve physical fitness", "Learn teamwork", "Build self-confidence", "Relieve stress"],
+                    active: true
+                }
+            ];
+
             try {
-                const db = await initDatabase();
-                return new Promise((resolve, reject) => {
-                    const transaction = db.transaction(['submissions'], 'readwrite');
-                    const store = transaction.objectStore('submissions');
-                    const req = store.add(record);
-                    req.onsuccess = () => resolve(true);
-                    req.onerror = (e) => reject(e);
-                });
+                const response = await fetch(`${QUESTION_BANK_API_URL}?action=getQuestions`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                let extractedList = [];
+
+                // Flexible response structure extraction
+                if (Array.isArray(data)) {
+                    extractedList = data;
+                } else if (data && Array.isArray(data.questions)) {
+                    extractedList = data.questions;
+                } else if (data && Array.isArray(data.data)) {
+                    extractedList = data.data;
+                } else if (data && Array.isArray(data.items)) {
+                    extractedList = data.items;
+                }
+
+                if (extractedList.length > 0) {
+                    appState.questions = extractedList.filter(q => {
+                        if (q.active === undefined || q.active === null) return true;
+                        const act = q.active;
+                        return act === true || act === "true" || act === "TRUE" || act === 1 || act === "1";
+                    });
+                    appState.questionsLoaded = true;
+                    return true;
+                } else {
+                    console.warn("API returned no valid question list. Using fallback SPM question bank.");
+                    appState.questions = fallbackQuestions;
+                    appState.questionsLoaded = true;
+                    return true;
+                }
             } catch (err) {
-                console.error("IndexedDB save error:", err);
+                console.warn("Could not load remote questions. Using offline SPM question bank:", err);
+                appState.questions = fallbackQuestions;
+                appState.questionsLoaded = true;
+                return true;
+            } finally {
+                appState.questionsLoading = false;
             }
         }
 
-        async function getAllSubmissionsFromDB() {
-            try {
-                const db = await initDatabase();
-                return new Promise((resolve, reject) => {
-                    const transaction = db.transaction(['submissions'], 'readonly');
-                    const store = transaction.objectStore('submissions');
-                    const req = store.getAll();
-                    req.onsuccess = () => resolve(req.result || []);
-                    req.onerror = (e) => reject(e);
-                });
-            } catch (err) {
-                console.error("IndexedDB fetch error:", err);
-                return [];
+        async function ensureQuestionsLoaded() {
+            if (appState.questionsLoaded) return true;
+            
+            const success = await fetchQuestionsFromBank();
+            if (!success) {
+                document.getElementById('api-error-message').textContent = "Unable to load questions. Please check your internet connection and try again.";
+                navigateTo('screen-api-error');
+                return false;
+            }
+            return true;
+        }
+
+        async function retryFetchQuestions() {
+            const success = await fetchQuestionsFromBank();
+            if (success) {
+                if (!appState.studentName || !appState.className) {
+                    navigateTo('screen-student-info');
+                } else {
+                    navigateTo('screen-choose-part');
+                }
+            } else {
+                document.getElementById('api-error-message').textContent = "Unable to load questions. Retry attempt failed.";
+                navigateTo('screen-api-error');
             }
         }
 
-        async function deleteSubmissionFromDB(id) {
-            try {
-                const db = await initDatabase();
-                return new Promise((resolve, reject) => {
-                    const transaction = db.transaction(['submissions'], 'readwrite');
-                    const store = transaction.objectStore('submissions');
-                    const req = store.delete(id);
-                    req.onsuccess = () => resolve(true);
-                    req.onerror = (e) => reject(e);
-                });
-            } catch (err) {
-                console.error("IndexedDB delete error:", err);
+        function extractCleanPrompts(qObj) {
+            if (!qObj) return [];
+            let list = [];
+            if (Array.isArray(qObj.prompts)) {
+                list = qObj.prompts;
+            } else if (Array.isArray(qObj.ideas)) {
+                list = qObj.ideas;
             }
+            return list.map(item => String(item || '').trim()).filter(item => item.length > 0);
         }
 
-        async function clearAllSubmissionsFromDB() {
-            try {
-                const db = await initDatabase();
-                return new Promise((resolve, reject) => {
-                    const transaction = db.transaction(['submissions'], 'readwrite');
-                    const store = transaction.objectStore('submissions');
-                    const req = store.clear();
-                    req.onsuccess = () => resolve(true);
-                    req.onerror = (e) => reject(e);
-                });
-            } catch (err) {
-                console.error("IndexedDB clear error:", err);
-            }
-        }
-
-        function showScreen(screenId) {
-            if (screenId !== 'preparation' && screenId !== 'recording') {
-                stopTimer();
-                cleanupRecordingStream();
-            }
-
-            const screens = document.querySelectorAll('.screen-view');
-            screens.forEach(s => s.classList.add('hidden'));
-
-            const target = document.getElementById(`screen-${screenId}`);
+        /* ==========================================================================
+           4. UI NAVIGATION & USER STATE HANDLERS
+           ========================================================================== */
+        function navigateTo(screenId) {
+            document.querySelectorAll('.app-screen').forEach(screen => {
+                screen.classList.add('hidden');
+            });
+            const target = document.getElementById(screenId);
             if (target) {
                 target.classList.remove('hidden');
             }
-
-            const progressContainer = document.getElementById('progress-container');
-            if (screenId === 'home' || screenId === 'teacher' || screenId === 'mic-error') {
-                progressContainer.classList.add('hidden');
-            } else {
-                progressContainer.classList.remove('hidden');
-                updateProgressTracker(screenId);
-            }
-
-            if (screenId === 'teacher') {
-                loadTeacherDashboard();
-            }
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function updateProgressTracker(screenId) {
-            const steps = ['setup', 'parts', 'prep', 'speak', 'submit'];
-            const screenToStep = {
-                'setup': 'setup',
-                'parts': 'parts',
-                'preparation': 'prep',
-                'recording': 'speak',
-                'playback': 'submit',
-                'submitted': 'submit'
-            };
+        async function handleStartClick() {
+            const loaded = await ensureQuestionsLoaded();
+            if (loaded) {
+                navigateTo('screen-student-info');
+            }
+        }
 
-            const currentStep = screenToStep[screenId] || 'setup';
-            let passed = true;
+        function handleCancelAndBack() {
+            stopAllTimers();
+            cleanupRecordingState();
+            if (appState.selectedPart === 2 || appState.selectedPart === 3) {
+                navigateTo('screen-choose-topic');
+            } else {
+                navigateTo('screen-choose-part');
+            }
+        }
 
-            steps.forEach(step => {
-                const el = document.getElementById(`step-${step}`);
-                if (!el) return;
-                const badge = el.querySelector('span:first-child');
-                const label = el.querySelector('span:last-child');
+        function handleAbortRecordingAndBack() {
+            stopAllTimers();
+            stopMicrophoneStream();
+            cleanupRecordingState();
+            if (appState.selectedPart === 2 || appState.selectedPart === 3) {
+                navigateTo('screen-choose-topic');
+            } else {
+                navigateTo('screen-choose-part');
+            }
+        }
 
-                if (passed) {
-                    badge.className = "w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold";
-                    label.className = "text-slate-900 font-semibold";
-                } else {
-                    badge.className = "w-5 h-5 rounded-full bg-slate-300 text-white flex items-center justify-center text-[10px] font-bold";
-                    label.className = "text-slate-500 font-medium";
-                }
+        function updateStudentBadge() {
+            const badge = document.getElementById('student-badge');
+            if (appState.studentName && appState.className) {
+                document.getElementById('badge-name').textContent = appState.studentName;
+                document.getElementById('badge-class').textContent = appState.className;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
 
-                if (step === currentStep) {
-                    passed = false;
-                }
+        function handleStudentInfoSubmit(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('input-student-name').value.trim();
+            const classInput = document.getElementById('input-class-name').value.trim();
+
+            if (!nameInput || !classInput) return;
+
+            appState.studentName = nameInput;
+            appState.className = classInput;
+            updateStudentBadge();
+
+            navigateTo('screen-choose-part');
+        }
+
+        /* ==========================================================================
+           5. PART SELECTION & TOPIC CHOICE LOGIC
+           ========================================================================== */
+        async function selectPart1() {
+            const loaded = await ensureQuestionsLoaded();
+            if (!loaded) return;
+
+            appState.selectedPart = 1;
+            appState.selectedTopicObj = null;
+
+            // Filter active Part 1 questions
+            const p1Questions = appState.questions.filter(q => {
+                const partStr = String(q.part || '').toLowerCase();
+                return partStr.includes('1') || partStr.includes('part 1');
             });
-        }
 
-        function validateAndSaveStudent() {
-            const nameInput = document.getElementById('student-name-input');
-            const classInput = document.getElementById('student-class-input');
-            const nameError = document.getElementById('name-error');
-            const classError = document.getElementById('class-error');
-
-            let isValid = true;
-
-            if (!nameInput.value.trim()) {
-                nameError.classList.remove('hidden');
-                isValid = false;
-            } else {
-                nameError.classList.add('hidden');
-            }
-
-            if (!classInput.value.trim()) {
-                classError.classList.remove('hidden');
-                isValid = false;
-            } else {
-                classError.classList.add('hidden');
-            }
-
-            if (isValid) {
-                appState.studentName = nameInput.value.trim();
-                appState.className = classInput.value.trim();
-                showScreen('parts');
-            }
-        }
-
-        function startPartPractice(partKey) {
-            appState.selectedPart = partKey;
-            const availableQuestions = QUESTION_BANK[partKey];
-            
-            if (!availableQuestions || availableQuestions.length === 0) return;
-
-            let questionToUse = null;
-
-            if (RANDOMISE_QUESTIONS) {
-                const unused = availableQuestions.filter(q => !appState.usedQuestionIds.includes(q.id));
-                if (unused.length > 0) {
-                    questionToUse = unused[Math.floor(Math.random() * unused.length)];
-                } else {
-                    questionToUse = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
-                }
-            } else {
-                questionToUse = availableQuestions[0];
-            }
-
-            appState.currentQuestion = questionToUse;
-            appState.usedQuestionIds.push(questionToUse.id);
-
-            setupPreparationScreen();
-            showScreen('preparation');
-        }
-
-        function setupPreparationScreen() {
-            const q = appState.currentQuestion;
-            if (!q) return;
-
-            document.getElementById('prep-student-name').textContent = `${appState.studentName} (${appState.className})`;
-            document.getElementById('prep-part-tag').textContent = formatPartLabel(appState.selectedPart);
-            document.getElementById('prep-question-num').textContent = `Task ID: ${q.id}`;
-            document.getElementById('prep-question-text').textContent = q.question;
-
-            const promptsContainer = document.getElementById('prep-prompts-container');
-            const promptsList = document.getElementById('prep-prompts-list');
-            promptsList.innerHTML = '';
-
-            if (q.prompts && q.prompts.length > 0) {
-                promptsContainer.classList.remove('hidden');
-                q.prompts.forEach(p => {
-                    const li = document.createElement('li');
-                    li.className = "bg-slate-50 border border-slate-200 p-2 rounded-lg flex items-center space-x-2";
-                    li.innerHTML = `<i class="fa-solid fa-circle-dot text-blue-500 text-[10px]"></i> <span>${p}</span>`;
-                    promptsList.appendChild(li);
-                });
-            } else {
-                promptsContainer.classList.add('hidden');
-            }
-
-            startPrepTimer(q.preparationTime);
-        }
-
-        function startPrepTimer(seconds) {
-            stopTimer();
-            appState.prepRemainingSec = seconds;
-            updatePrepTimerDisplay(seconds);
-
-            const targetTime = Date.now() + (seconds * 1000);
-
-            appState.timerInterval = setInterval(() => {
-                const now = Date.now();
-                const remaining = Math.max(0, Math.ceil((targetTime - now) / 1000));
-                
-                appState.prepRemainingSec = remaining;
-                updatePrepTimerDisplay(remaining);
-
-                if (remaining <= 0) {
-                    stopTimer();
-                    document.getElementById('prep-instruction').textContent = "Preparation time finished! Click START SPEAKING NOW.";
-                }
-            }, 250);
-        }
-
-        function updatePrepTimerDisplay(sec) {
-            document.getElementById('prep-timer-display').textContent = formatMMSS(sec);
-        }
-
-        function formatMMSS(totalSeconds) {
-            const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
-            const s = (totalSeconds % 60).toString().padStart(2, '0');
-            return `${m}:${s}`;
-        }
-
-        function formatPartLabel(partKey) {
-            if (partKey === 'part1') return 'Part 1 - Getting to Know You';
-            if (partKey === 'part2') return 'Part 2 - Individual Long Turn';
-            if (partKey === 'part3') return 'Part 3 - Discussion Task';
-            return partKey;
-        }
-
-        function stopTimer() {
-            if (appState.timerInterval) {
-                clearInterval(appState.timerInterval);
-                appState.timerInterval = null;
-            }
-        }
-
-        async function handleStartSpeaking() {
-            stopTimer();
-
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                showMicrophoneError("Pelayar web anda tidak membenarkan kawalan mikrofon. Sila gunakan pelayar Chrome/Edge/Safari dengan HTTPS.");
+            if (p1Questions.length === 0) {
+                document.getElementById('api-error-message').textContent = "Unable to load questions for Part 1. No active questions available.";
+                navigateTo('screen-api-error');
                 return;
             }
 
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-                appState.mediaStream = stream;
+            // Pick random active question
+            const randomObj = p1Questions[Math.floor(Math.random() * p1Questions.length)];
+            appState.selectedTopicObj = randomObj;
+            appState.currentQuestion = randomObj.question || randomObj.topic || "Part 1 Question";
+            appState.cleanPrompts = extractCleanPrompts(randomObj);
 
-                let mimeType = '';
-                const types = [
-                    'audio/webm;codecs=opus',
-                    'audio/webm',
-                    'audio/mp4',
-                    'audio/aac',
-                    'audio/ogg;codecs=opus'
-                ];
-                for (const t of types) {
-                    if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) {
-                        mimeType = t;
-                        break;
-                    }
-                }
+            // Render Preparation Screen Content
+            document.getElementById('prep-part-tag').textContent = "PART 1 • GET READY";
+            document.getElementById('prep-question-box').innerHTML = `<p class="font-semibold text-slate-800">${appState.currentQuestion}</p>`;
 
-                const options = mimeType ? { mimeType } : {};
-                appState.mediaRecorder = new MediaRecorder(stream, options);
-                appState.audioChunks = [];
+            startPreparation(20);
+        }
 
-                appState.mediaRecorder.ondataavailable = (e) => {
-                    if (e.data && e.data.size > 0) {
-                        appState.audioChunks.push(e.data);
-                    }
-                };
+        async function selectPart2() {
+            const loaded = await ensureQuestionsLoaded();
+            if (!loaded) return;
 
-                appState.mediaRecorder.onstop = () => {
-                    const blob = new Blob(appState.audioChunks, { type: appState.mediaRecorder.mimeType || 'audio/webm' });
-                    appState.recordedBlob = blob;
-                    
-                    if (appState.recordedAudioUrl) {
-                        URL.revokeObjectURL(appState.recordedAudioUrl);
-                    }
-                    appState.recordedAudioUrl = URL.createObjectURL(blob);
-                    
-                    setupPlaybackScreen();
-                    showScreen('playback');
-                };
+            appState.selectedPart = 2;
+            document.getElementById('topic-select-heading').textContent = "CHOOSE YOUR PART 2 TOPIC";
+            
+            const grid = document.getElementById('topic-grid');
+            grid.innerHTML = "";
 
-                appState.mediaRecorder.start(200);
-                appState.isRecording = true;
+            const p2Topics = appState.questions.filter(q => {
+                const partStr = String(q.part || '').toLowerCase();
+                return partStr.includes('2') || partStr.includes('part 2');
+            });
 
-                setupRecordingScreen();
-                showScreen('recording');
-
-            } catch (err) {
-                console.error("Microphone access error:", err);
-                let friendlyMsg = "Akses mikrofon diperlukan untuk merakam jawapan. Sila benarkan kebenaran mikrofon pada pelayar anda.";
-                
-                if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-                    friendlyMsg = "Kebenaran mikrofon telah ditolak atau disekat oleh pelayar. Sila benarkan akses mikrofon di tetapan pelayar anda.";
-                } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
-                    friendlyMsg = "Tiada mikrofon dikesan pada peranti anda. Sila sambungkan mikrofon atau guna Mod Simulasi Demo.";
-                }
-
-                showMicrophoneError(friendlyMsg);
+            if (p2Topics.length === 0) {
+                document.getElementById('api-error-message').textContent = "Unable to load questions for Part 2. No active topics available.";
+                navigateTo('screen-api-error');
+                return;
             }
+
+            p2Topics.forEach(topic => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between";
+                card.innerHTML = `
+                    <h3 class="font-bold text-slate-800 text-sm mb-3">${topic.topic || topic.title || 'Part 2 Topic'}</h3>
+                    <button class="w-full bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold py-2 rounded-xl text-xs transition">
+                        Select Topic
+                    </button>
+                `;
+                card.onclick = () => onTopicChosen(topic);
+                grid.appendChild(card);
+            });
+
+            navigateTo('screen-choose-topic');
         }
 
-        function showMicrophoneError(msg) {
-            document.getElementById('mic-error-message-text').textContent = msg;
-            showScreen('mic-error');
+        async function selectPart3() {
+            const loaded = await ensureQuestionsLoaded();
+            if (!loaded) return;
+
+            appState.selectedPart = 3;
+            document.getElementById('topic-select-heading').textContent = "CHOOSE YOUR PART 3 TOPIC";
+
+            const grid = document.getElementById('topic-grid');
+            grid.innerHTML = "";
+
+            const p3Topics = appState.questions.filter(q => {
+                const partStr = String(q.part || '').toLowerCase();
+                return partStr.includes('3') || partStr.includes('part 3');
+            });
+
+            if (p3Topics.length === 0) {
+                document.getElementById('api-error-message').textContent = "Unable to load questions for Part 3. No active topics available.";
+                navigateTo('screen-api-error');
+                return;
+            }
+
+            p3Topics.forEach(topic => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between";
+                card.innerHTML = `
+                    <h3 class="font-bold text-slate-800 text-sm mb-3">${topic.topic || topic.title || 'Part 3 Topic'}</h3>
+                    <button class="w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold py-2 rounded-xl text-xs transition">
+                        Select Topic
+                    </button>
+                `;
+                card.onclick = () => onTopicChosen(topic);
+                grid.appendChild(card);
+            });
+
+            navigateTo('screen-choose-topic');
         }
 
-        function setupRecordingScreen() {
-            const q = appState.currentQuestion;
-            document.getElementById('rec-part-tag').textContent = formatPartLabel(appState.selectedPart);
-            document.getElementById('rec-question-text').textContent = q.question;
+        // When student clicks a topic card (Part 2 / Part 3)
+        function onTopicChosen(topicObj) {
+            appState.selectedTopicObj = topicObj;
+            appState.currentQuestion = topicObj.question || topicObj.topic || "";
+            appState.cleanPrompts = extractCleanPrompts(topicObj);
 
-            startSpeakingTimer(q.speakingTime);
+            // Show intermediate TOPIC SELECTED screen (hides task details until START)
+            document.getElementById('selected-topic-title').textContent = topicObj.topic || topicObj.title || "Selected Topic";
+            navigateTo('screen-topic-selected');
         }
 
-        function startSpeakingTimer(seconds) {
-            stopTimer();
-            appState.speakingRemainingSec = seconds;
-            updateSpeakingTimerDisplay(seconds);
+        // Student presses START on topic confirmation screen
+        function confirmStartTopic() {
+            const topic = appState.selectedTopicObj;
+            const prompts = appState.cleanPrompts;
 
-            const targetTime = Date.now() + (seconds * 1000);
-
-            appState.timerInterval = setInterval(() => {
-                const now = Date.now();
-                const remaining = Math.max(0, Math.ceil((targetTime - now) / 1000));
+            if (appState.selectedPart === 2) {
+                document.getElementById('prep-part-tag').textContent = `PART 2 • ${topic.topic || 'INDIVIDUAL TURN'}`;
                 
-                appState.speakingRemainingSec = remaining;
-                updateSpeakingTimerDisplay(remaining);
+                let promptsHtml = "";
+                if (prompts.length > 0) {
+                    promptsHtml = `<ul class="text-xs text-slate-600 space-y-1.5 mt-3 pl-1 font-medium">` +
+                        prompts.map(p => `<li class="flex items-start"><span class="mr-2 text-purple-600 font-bold">•</span><span>${p}</span></li>`).join('') +
+                        `</ul>`;
+                }
+
+                document.getElementById('prep-question-box').innerHTML = `
+                    <p class="font-bold text-slate-900 text-base sm:text-lg mb-1">${appState.currentQuestion}</p>
+                    ${promptsHtml}
+                `;
+
+            } else if (appState.selectedPart === 3) {
+                document.getElementById('prep-part-tag').textContent = `PART 3 • ${topic.topic || 'DISCUSSION'}`;
+
+                let promptsHtml = "";
+                if (prompts.length > 0) {
+                    promptsHtml = `
+                        <div class="mb-3 mt-3">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-2">Points to consider:</span>
+                            <div class="flex flex-wrap gap-2">
+                                ${prompts.map(i => `<span class="bg-emerald-50 text-emerald-800 px-3 py-1 rounded-xl text-xs font-semibold border border-emerald-100">${i}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                document.getElementById('prep-question-box').innerHTML = `
+                    <p class="font-bold text-slate-900 text-base sm:text-lg">${appState.currentQuestion}</p>
+                    ${promptsHtml}
+                    <div class="pt-3 mt-3 border-t border-slate-200 text-xs text-slate-600 leading-relaxed">
+                        <strong class="text-emerald-700">Decision Stage:</strong> In Stage 2, you will choose the best option and explain your reasons.
+                    </div>
+                `;
+            }
+
+            startPreparation(20);
+        }
+
+        /* ==========================================================================
+           6. TIMERS & PREPARATION LOGIC
+           ========================================================================== */
+        function formatTime(totalSeconds) {
+            const mins = Math.floor(totalSeconds / 60);
+            const secs = Math.floor(totalSeconds % 60);
+            const mm = String(mins).padStart(2, '0');
+            const ss = String(secs).padStart(2, '0');
+            return `${mm}:${ss}`;
+        }
+
+        function stopAllTimers() {
+            if (appState.prepTimerId) clearInterval(appState.prepTimerId);
+            if (appState.speakingTimerId) clearInterval(appState.speakingTimerId);
+            appState.prepTimerId = null;
+            appState.speakingTimerId = null;
+        }
+
+        function startPreparation(seconds = 20) {
+            stopAllTimers();
+            navigateTo('screen-prep');
+
+            let remaining = seconds;
+            const display = document.getElementById('prep-timer-display');
+            display.textContent = formatTime(remaining);
+
+            const startTime = Date.now();
+
+            appState.prepTimerId = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                remaining = seconds - elapsed;
 
                 if (remaining <= 0) {
-                    stopTimer();
-                    stopRecordingProcess();
+                    display.textContent = "00:00";
+                    stopAllTimers();
+                    showStartSpeakingPrompt();
+                } else {
+                    display.textContent = formatTime(remaining);
                 }
             }, 250);
         }
 
-        function updateSpeakingTimerDisplay(sec) {
-            document.getElementById('rec-timer-display').textContent = formatMMSS(sec);
+        function skipPreparation() {
+            stopAllTimers();
+            showStartSpeakingPrompt();
         }
 
-        function stopRecordingByUser() {
-            stopTimer();
-            stopRecordingProcess();
+        function showStartSpeakingPrompt() {
+            navigateTo('screen-start-speaking-prompt');
         }
 
-        function stopRecordingProcess() {
-            if (appState.mediaRecorder && appState.mediaRecorder.state !== 'inactive') {
-                appState.recordedDurationSec = appState.currentQuestion.speakingTime - appState.speakingRemainingSec;
-                if (appState.recordedDurationSec < 1) appState.recordedDurationSec = 1;
-                appState.mediaRecorder.stop();
+        /* ==========================================================================
+           7. RECORDING & MEDIARECORDER ENGINE
+           ========================================================================== */
+        async function initiateMicrophoneAndStart() {
+            cleanupRecordingState();
+
+            try {
+                // Microphone permission request ONLY when student clicks START SPEAKING
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    audio: true,
+                    video: false
+                });
+
+                appState.mediaStream = stream;
+                setupMediaRecorder(stream);
+                startActualRecording();
+
+            } catch (err) {
+                console.error("Microphone Access Error:", err);
+                navigateTo('screen-mic-error');
             }
-            cleanupRecordingStream();
         }
 
-        function cleanupRecordingStream() {
-            if (appState.mediaStream) {
-                appState.mediaStream.getTracks().forEach(track => track.stop());
-                appState.mediaStream = null;
+        function retryMicrophoneAccess() {
+            initiateMicrophoneAndStart();
+        }
+
+        function detectSupportedMimeType() {
+            const types = [
+                'audio/webm;codecs=opus',
+                'audio/webm',
+                'audio/mp4',
+                'audio/ogg'
+            ];
+            for (let t of types) {
+                if (MediaRecorder.isTypeSupported(t)) {
+                    return t;
+                }
+            }
+            return '';
+        }
+
+        function setupMediaRecorder(stream) {
+            appState.audioChunks = [];
+            const mime = detectSupportedMimeType();
+            appState.mimeType = mime;
+
+            const options = mime ? { mimeType: mime } : {};
+            
+            try {
+                appState.mediaRecorder = new MediaRecorder(stream, options);
+            } catch (e) {
+                console.warn("MediaRecorder creation with mimeType failed, falling back to default.", e);
+                appState.mediaRecorder = new MediaRecorder(stream);
+                appState.mimeType = appState.mediaRecorder.mimeType || 'audio/webm';
+            }
+
+            appState.mediaRecorder.ondataavailable = (event) => {
+                if (event.data && event.data.size > 0) {
+                    appState.audioChunks.push(event.data);
+                }
+            };
+
+            appState.mediaRecorder.onstop = () => {
+                const blob = new Blob(appState.audioChunks, { type: appState.mimeType || 'audio/webm' });
+                appState.recordedBlob = blob;
+                appState.recordedAudioUrl = URL.createObjectURL(blob);
+                
+                stopMicrophoneStream();
+                prepareReviewScreen();
+            };
+        }
+
+        function startActualRecording() {
+            appState.isRecording = true;
+            appState.mediaRecorder.start(100); // Collect timeslices
+            
+            navigateTo('screen-recording');
+
+            // Setup Recording Screen UI Task Box
+            const taskDisplay = document.getElementById('recording-task-display');
+            taskDisplay.innerHTML = document.getElementById('prep-question-box').innerHTML;
+
+            const transitionBanner = document.getElementById('part3-transition-banner');
+            transitionBanner.classList.add('hidden');
+
+            const actionContainer = document.getElementById('recording-action-container');
+
+            if (appState.selectedPart === 1) {
+                document.getElementById('recording-stage-title').textContent = "SPEAKING TIME";
+                document.getElementById('recording-status-text').textContent = "🔴 RECORDING";
+                actionContainer.innerHTML = `
+                    <button onclick="stopRecordingManual()" class="w-full sm:w-auto bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-10 rounded-xl text-base shadow-lg transition">
+                        STOP RECORDING
+                    </button>
+                `;
+                runSpeakingTimer(30);
+
+            } else if (appState.selectedPart === 2) {
+                document.getElementById('recording-stage-title').textContent = "SPEAKING TIME";
+                document.getElementById('recording-status-text').textContent = "🔴 RECORDING";
+                actionContainer.innerHTML = `
+                    <button onclick="stopRecordingManual()" class="w-full sm:w-auto bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-10 rounded-xl text-base shadow-lg transition">
+                        STOP RECORDING
+                    </button>
+                `;
+                runSpeakingTimer(60);
+
+            } else if (appState.selectedPart === 3) {
+                appState.part3Stage = 1; // Stage 1: Discussion
+                appState.discussionDuration = 0;
+                appState.decisionDuration = 0;
+                
+                document.getElementById('recording-stage-title').textContent = "STAGE 1: DISCUSSION";
+                document.getElementById('recording-status-text').textContent = "🔴 DISCUSSION";
+                document.getElementById('recording-status-text').className = "text-xs font-extrabold uppercase tracking-wider text-red-600";
+                
+                // PART 3 TWO DISTINCT BUTTONS DURING DISCUSSION
+                actionContainer.innerHTML = `
+                    <div class="flex flex-col sm:flex-row gap-3 w-full justify-center items-center">
+                        <button onclick="stopAndSubmitEarly()" class="w-full sm:w-1/2 bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-4 rounded-xl text-xs sm:text-sm shadow-md transition flex items-center justify-center space-x-1">
+                            <span>⏹ STOP & SUBMIT</span>
+                        </button>
+                        <button id="btn-part3-action" onclick="finishDiscussionEarly()" class="w-full sm:w-1/2 bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 px-4 rounded-xl text-xs sm:text-sm shadow-md transition flex items-center justify-center space-x-1">
+                            <span>FINISH DISCUSSION & GO TO DECISION →</span>
+                        </button>
+                    </div>
+                `;
+                runPart3DiscussionTimer(120);
+            }
+        }
+
+        // Standard Timer for Part 1 & Part 2
+        function runSpeakingTimer(totalSeconds) {
+            stopAllTimers();
+            let remaining = totalSeconds;
+            const timerDisplay = document.getElementById('recording-timer-display');
+            timerDisplay.textContent = formatTime(remaining);
+
+            const startTime = Date.now();
+
+            appState.speakingTimerId = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                remaining = totalSeconds - elapsed;
+                appState.recordingDuration = elapsed;
+
+                if (remaining <= 0) {
+                    timerDisplay.textContent = "00:00";
+                    appState.recordingDuration = totalSeconds;
+                    stopRecordingManual();
+                } else {
+                    timerDisplay.textContent = formatTime(remaining);
+                }
+            }, 250);
+        }
+
+        /* ==========================================================================
+           8. PART 3 TWO-STAGE RECORDING LOGIC
+           ========================================================================== */
+        // Stage 1: Discussion Timer (up to 120 seconds)
+        function runPart3DiscussionTimer(maxSeconds = 120) {
+            stopAllTimers();
+            let remaining = maxSeconds;
+            const timerDisplay = document.getElementById('recording-timer-display');
+            timerDisplay.textContent = formatTime(remaining);
+
+            const startTime = Date.now();
+
+            appState.speakingTimerId = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                remaining = maxSeconds - elapsed;
+                appState.discussionDuration = elapsed;
+                appState.recordingDuration = elapsed;
+
+                if (remaining <= 0) {
+                    timerDisplay.textContent = "00:00";
+                    appState.discussionDuration = maxSeconds;
+                    appState.recordingDuration = maxSeconds;
+                    stopAllTimers();
+                    transitionPart3ToDecisionStage();
+                } else {
+                    timerDisplay.textContent = formatTime(remaining);
+                }
+            }, 250);
+        }
+
+        // BUTTON 1: STOP & SUBMIT (Ends ENTIRE recording attempt immediately -> Review)
+        function stopAndSubmitEarly() {
+            stopAllTimers();
+            if (appState.part3Stage === 1) {
+                appState.recordingDuration = appState.discussionDuration;
+            } else if (appState.part3Stage === 2) {
+                appState.recordingDuration = appState.discussionDuration + appState.decisionDuration;
+            }
+            stopRecordingManual();
+        }
+
+        // BUTTON 2: FINISH DISCUSSION & GO TO DECISION (Ends ONLY Discussion stage -> Decision stage)
+        function finishDiscussionEarly() {
+            stopAllTimers();
+            transitionPart3ToDecisionStage();
+        }
+
+        // Seamless Transition from Stage 1 -> Stage 2 without stopping MediaRecorder or re-requesting mic
+        function transitionPart3ToDecisionStage() {
+            appState.part3Stage = 2;
+
+            const stageTitle = document.getElementById('recording-stage-title');
+            const statusText = document.getElementById('recording-status-text');
+            const actionContainer = document.getElementById('recording-action-container');
+            const transitionBanner = document.getElementById('part3-transition-banner');
+
+            stageTitle.textContent = "STAGE 2: MAKE A DECISION";
+            statusText.textContent = "🟢 DECISION STAGE";
+            statusText.className = "text-xs font-extrabold uppercase tracking-wider text-emerald-600";
+            
+            // During Decision, keep STOP & SUBMIT button available
+            actionContainer.innerHTML = `
+                <button onclick="stopAndSubmitEarly()" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-8 rounded-xl text-sm shadow-md transition flex items-center justify-center space-x-2">
+                    <span>⏹ STOP & SUBMIT</span>
+                </button>
+            `;
+
+            transitionBanner.classList.remove('hidden');
+
+            setTimeout(() => {
+                transitionBanner.classList.add('hidden');
+                runPart3DecisionTimer(60);
+            }, 2500);
+        }
+
+        // Stage 2: Decision Timer (60 seconds)
+        function runPart3DecisionTimer(totalSeconds = 60) {
+            stopAllTimers();
+            let remaining = totalSeconds;
+            const timerDisplay = document.getElementById('recording-timer-display');
+            timerDisplay.textContent = formatTime(remaining);
+
+            const startTime = Date.now();
+
+            appState.speakingTimerId = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                remaining = totalSeconds - elapsed;
+                appState.decisionDuration = elapsed;
+                appState.recordingDuration = appState.discussionDuration + appState.decisionDuration;
+
+                if (remaining <= 0) {
+                    timerDisplay.textContent = "00:00";
+                    appState.decisionDuration = totalSeconds;
+                    appState.recordingDuration = appState.discussionDuration + totalSeconds;
+                    stopRecordingManual();
+                } else {
+                    timerDisplay.textContent = formatTime(remaining);
+                }
+            }, 250);
+        }
+
+        function stopRecordingManual() {
+            stopAllTimers();
+
+            if (appState.mediaRecorder && appState.mediaRecorder.state !== "inactive") {
+                appState.mediaRecorder.stop();
             }
             appState.isRecording = false;
         }
 
-        function handleRecordAgain() {
-            if (appState.currentQuestion) {
-                setupPreparationScreen();
-                showScreen('preparation');
-            } else {
-                showScreen('parts');
+        function stopMicrophoneStream() {
+            if (appState.mediaStream) {
+                appState.mediaStream.getTracks().forEach(track => track.stop());
+                appState.mediaStream = null;
             }
         }
 
-        function setupPlaybackScreen() {
-            document.getElementById('play-student').textContent = appState.studentName;
-            document.getElementById('play-class').textContent = appState.className;
-            document.getElementById('play-part').textContent = formatPartLabel(appState.selectedPart);
-            document.getElementById('play-question').textContent = appState.currentQuestion.question;
-            document.getElementById('play-duration').textContent = `${appState.recordedDurationSec} seconds`;
+        function cleanupRecordingState() {
+            stopAllTimers();
+            stopMicrophoneStream();
 
-            const audioEl = document.getElementById('audio-playback-element');
-            audioEl.src = appState.recordedAudioUrl;
-            audioEl.load();
+            if (appState.recordedAudioUrl) {
+                URL.revokeObjectURL(appState.recordedAudioUrl);
+            }
+
+            appState.mediaRecorder = null;
+            appState.audioChunks = [];
+            appState.recordedBlob = null;
+            appState.recordedAudioUrl = null;
+            appState.recordingDuration = 0;
+            appState.discussionDuration = 0;
+            appState.decisionDuration = 0;
+            appState.part3Stage = 1;
+            appState.isRecording = false;
         }
 
-        function downloadRecordedAudio() {
-            if (!appState.recordedAudioUrl) return;
+        /* ==========================================================================
+           9. REVIEW & RECORD AGAIN LOGIC
+           ========================================================================== */
+        function prepareReviewScreen() {
+            navigateTo('screen-review');
+
+            document.getElementById('review-student-name').textContent = appState.studentName;
+            document.getElementById('review-class-name').textContent = appState.className;
+            document.getElementById('review-part').textContent = `Part ${appState.selectedPart}`;
             
-            try {
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = appState.recordedAudioUrl;
-                const ext = (appState.recordedBlob && appState.recordedBlob.type.includes('mp4')) ? 'm4a' : 'webm';
-                const cleanName = (appState.studentName || 'Student').replace(/[^a-zA-Z0-9]/g, '_');
-                a.download = `SPM_Speaking_${cleanName}_${appState.selectedPart}_${Date.now()}.${ext}`;
-                document.body.appendChild(a);
-                a.click();
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                }, 150);
-            } catch (err) {
-                console.warn("Direct download failed, fallback to new tab", err);
-                window.open(appState.recordedAudioUrl, '_blank');
+            let topicText = appState.selectedTopicObj ? (appState.selectedTopicObj.topic || appState.selectedTopicObj.title || appState.currentQuestion) : appState.currentQuestion;
+            document.getElementById('review-topic').textContent = topicText;
+            document.getElementById('review-duration').textContent = formatTime(appState.recordingDuration);
+
+            const audioEl = document.getElementById('audio-playback');
+            audioEl.src = appState.recordedAudioUrl;
+        }
+
+        function handleRecordAgain() {
+            cleanupRecordingState();
+
+            if (appState.selectedPart === 1) {
+                startPreparation(20);
+            } else {
+                confirmStartTopic();
             }
         }
 
-        async function submitRecordingData() {
-            const btnSubmit = document.getElementById('btn-submit-answer');
-            btnSubmit.disabled = true;
-            btnSubmit.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>SUBMITTING...</span>`;
-
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-            const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-
-            let base64Audio = '';
-            if (appState.recordedBlob) {
-                try {
-                    base64Audio = await blobToBase64(appState.recordedBlob);
-                } catch (e) {
-                    console.error("Base64 conversion error:", e);
-                }
-            }
-
-            const submissionRecord = {
-                id: `sub_${Date.now()}`,
-                studentName: appState.studentName,
-                className: appState.className,
-                part: formatPartLabel(appState.selectedPart),
-                partKey: appState.selectedPart,
-                questionId: appState.currentQuestion.id,
-                question: appState.currentQuestion.question,
-                duration: `${appState.recordedDurationSec}s`,
-                durationSec: appState.recordedDurationSec,
-                date: dateStr,
-                time: timeStr,
-                timestamp: Date.now(),
-                audioBlob: appState.recordedBlob,
-                mimeType: appState.recordedBlob ? appState.recordedBlob.type : 'audio/webm'
-            };
-
-            // Save locally in IndexedDB first
-            await saveSubmissionToDB(submissionRecord);
-
-            // POST to Google Apps Script Endpoint
-            if (GOOGLE_APPS_SCRIPT_WEB_APP_URL && GOOGLE_APPS_SCRIPT_WEB_APP_URL.trim() !== '') {
-                try {
-                    await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            studentName: submissionRecord.studentName,
-                            className: submissionRecord.className,
-                            part: submissionRecord.part,
-                            question: submissionRecord.question,
-                            duration: submissionRecord.duration,
-                            dateTime: `${dateStr}, ${timeStr}`,
-                            audioBase64: base64Audio
-                        })
-                    });
-                } catch (err) {
-                    console.error("Google Apps Script upload error:", err);
-                }
-            }
-
-            btnSubmit.disabled = false;
-            btnSubmit.innerHTML = `<i class="fa-solid fa-paper-plane text-xs"></i> <span>SUBMIT ANSWER</span>`;
-
-            // Display submitted confirmation screen
-            document.getElementById('sub-name').textContent = submissionRecord.studentName;
-            document.getElementById('sub-class').textContent = submissionRecord.className;
-            document.getElementById('sub-part').textContent = submissionRecord.part;
-            document.getElementById('sub-duration').textContent = submissionRecord.duration;
-            document.getElementById('sub-datetime').textContent = `${dateStr}, ${timeStr}`;
-
-            showScreen('submitted');
-        }
-
+        /* ==========================================================================
+           10. SUBMISSION & GOOGLE APPS SCRIPT UPLOAD
+           ========================================================================== */
         function blobToBase64(blob) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                    const res = reader.result || '';
-                    resolve(res.split(',')[1] || '');
+                    const dataUrl = reader.result;
+                    const base64 = dataUrl.split(',')[1];
+                    resolve(base64);
                 };
                 reader.onerror = reject;
                 reader.readAsDataURL(blob);
             });
         }
 
-        let cachedTeacherRecords = [];
+        async function submitRecording() {
+            if (!appState.recordedBlob || appState.isUploading) return;
 
-        async function loadTeacherDashboard() {
-            cachedTeacherRecords = await getAllSubmissionsFromDB();
+            appState.isUploading = true;
+            const submitBtn = document.getElementById('btn-submit');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span>⏳ UPLOADING...</span>`;
+
+            try {
+                const base64Audio = await blobToBase64(appState.recordedBlob);
+                const now = new Date();
+
+                const topicTitle = appState.selectedTopicObj ? (appState.selectedTopicObj.topic || appState.selectedTopicObj.title || "Short Questions") : "Short Questions";
+                const questionId = appState.selectedTopicObj ? (appState.selectedTopicObj.id || "p1_random") : "p1_random";
+
+                const payload = {
+                    studentName: appState.studentName,
+                    className: appState.className,
+                    part: `Part ${appState.selectedPart}`,
+                    questionId: questionId,
+                    topicTitle: topicTitle,
+                    question: appState.currentQuestion,
+                    timestamp: now.toISOString(),
+                    date: now.toLocaleDateString(),
+                    time: now.toLocaleTimeString(),
+                    recordingDuration: formatTime(appState.recordingDuration),
+                    mimeType: appState.mimeType || 'audio/webm',
+                    audioData: base64Audio
+                };
+
+                // Send POST request to Submission Apps Script endpoint (UNCHANGED)
+                const response = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.success || response.ok) {
+                    showSuccessScreen();
+                    recordInLocalDashboard(payload);
+                } else {
+                    throw new Error(result.message || "Upload failed");
+                }
+
+            } catch (error) {
+                console.error("Submission error:", error);
+                alert("⚠ UPLOAD FAILED\nYour recording could not be uploaded. Please try again.");
+            } finally {
+                appState.isUploading = false;
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span>✅ SUBMIT</span>`;
+            }
+        }
+
+        function showSuccessScreen() {
+            document.getElementById('success-student').textContent = appState.studentName;
+            document.getElementById('success-class').textContent = appState.className;
+            document.getElementById('success-part').textContent = `Part ${appState.selectedPart}`;
+            document.getElementById('success-duration').textContent = formatTime(appState.recordingDuration);
+
+            navigateTo('screen-success');
+        }
+
+        function restartPractice() {
+            cleanupRecordingState();
+            navigateTo('screen-choose-part');
+        }
+
+        /* ==========================================================================
+           11. TEACHER DASHBOARD LOGIC
+           ========================================================================== */
+        const localDashboardRecords = [];
+
+        function recordInLocalDashboard(data) {
+            localDashboardRecords.push({
+                student: data.studentName,
+                class: data.className,
+                part: data.part,
+                topic: data.topicTitle,
+                date: data.date,
+                time: data.time,
+                duration: data.recordingDuration,
+                status: "Submitted"
+            });
+        }
+
+        function openTeacherDashboard() {
+            navigateTo('screen-teacher-dashboard');
+            renderDashboardData();
+            fetchBackendDashboardData();
+        }
+
+        function renderDashboardData() {
+            const tableBody = document.getElementById('dashboard-table-body');
             
-            const classSelect = document.getElementById('teacher-filter-class');
-            const classes = Array.from(new Set(cachedTeacherRecords.map(r => r.className))).filter(Boolean);
-            
-            classSelect.innerHTML = `<option value="ALL">All Classes</option>`;
-            classes.forEach(c => {
-                const opt = document.createElement('option');
-                opt.value = c;
-                opt.textContent = c;
-                classSelect.appendChild(opt);
+            let p1Count = 0, p2Count = 0, p3Count = 0;
+            localDashboardRecords.forEach(r => {
+                if (r.part.includes('1')) p1Count++;
+                if (r.part.includes('2')) p2Count++;
+                if (r.part.includes('3')) p3Count++;
             });
 
-            document.getElementById('stat-total').textContent = cachedTeacherRecords.length;
-            document.getElementById('stat-part1').textContent = cachedTeacherRecords.filter(r => r.partKey === 'part1' || r.part.includes('Part 1')).length;
-            document.getElementById('stat-part2').textContent = cachedTeacherRecords.filter(r => r.partKey === 'part2' || r.part.includes('Part 2')).length;
-            document.getElementById('stat-part3').textContent = cachedTeacherRecords.filter(r => r.partKey === 'part3' || r.part.includes('Part 3')).length;
+            document.getElementById('dash-total').textContent = localDashboardRecords.length;
+            document.getElementById('dash-part1').textContent = p1Count;
+            document.getElementById('dash-part2').textContent = p2Count;
+            document.getElementById('dash-part3').textContent = p3Count;
 
-            renderTeacherList(cachedTeacherRecords);
-        }
-
-        function filterSubmissions() {
-            const search = document.getElementById('teacher-search-input').value.toLowerCase().trim();
-            const selectedClass = document.getElementById('teacher-filter-class').value;
-            const selectedPart = document.getElementById('teacher-filter-part').value;
-
-            const filtered = cachedTeacherRecords.filter(item => {
-                const matchesName = item.studentName.toLowerCase().includes(search);
-                const matchesClass = selectedClass === 'ALL' || item.className === selectedClass;
-                const matchesPart = selectedPart === 'ALL' || item.part.includes(selectedPart);
-                return matchesName && matchesClass && matchesPart;
-            });
-
-            renderTeacherList(filtered);
-        }
-
-        function resetTeacherFilters() {
-            document.getElementById('teacher-search-input').value = '';
-            document.getElementById('teacher-filter-class').value = 'ALL';
-            document.getElementById('teacher-filter-part').value = 'ALL';
-            renderTeacherList(cachedTeacherRecords);
-        }
-
-        function renderTeacherList(records) {
-            const tbody = document.getElementById('teacher-table-body');
-            const cardList = document.getElementById('teacher-card-list');
-            const emptyState = document.getElementById('teacher-empty-state');
-
-            tbody.innerHTML = '';
-            cardList.innerHTML = '';
-
-            if (records.length === 0) {
-                emptyState.classList.remove('hidden');
+            if (localDashboardRecords.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="p-6 text-center text-slate-400">No submissions yet.</td>
+                    </tr>
+                `;
                 return;
-            } else {
-                emptyState.classList.add('hidden');
             }
 
-            records.sort((a, b) => b.timestamp - a.timestamp);
+            tableBody.innerHTML = localDashboardRecords.map(r => `
+                <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
+                    <td class="p-3 font-semibold text-slate-800">${r.student}</td>
+                    <td class="p-3">${r.class}</td>
+                    <td class="p-3 font-bold text-blue-600">${r.part}</td>
+                    <td class="p-3 truncate max-w-[120px]">${r.topic}</td>
+                    <td class="p-3">${r.date}</td>
+                    <td class="p-3">${r.time}</td>
+                    <td class="p-3 font-mono">${r.duration}</td>
+                    <td class="p-3"><span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full font-bold text-[10px]">✓ ${r.status}</span></td>
+                </tr>
+            `).join('');
+        }
 
-            records.forEach(rec => {
-                let audioUrl = '';
-                if (rec.audioBlob) {
-                    audioUrl = URL.createObjectURL(rec.audioBlob);
+        async function fetchBackendDashboardData() {
+            try {
+                const res = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL + "?action=getSubmissions");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && Array.isArray(data.submissions) && data.submissions.length > 0) {
+                        localDashboardRecords.length = 0;
+                        data.submissions.forEach(item => localDashboardRecords.push(item));
+                        renderDashboardData();
+                    }
                 }
-
-                // Desktop Table View
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition-colors";
-                tr.innerHTML = `
-                    <td class="p-3.5 font-semibold text-slate-800">${escapeHtml(rec.studentName)}</td>
-                    <td class="p-3.5">${escapeHtml(rec.className)}</td>
-                    <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-medium text-[11px]">${escapeHtml(rec.part)}</span></td>
-                    <td class="p-3.5 text-slate-500">${rec.date}<br><span class="text-[10px] text-slate-400">${rec.time}</span></td>
-                    <td class="p-3.5 font-mono">${rec.duration}</td>
-                    <td class="p-3.5">
-                        ${audioUrl ? `
-                            <div class="flex items-center space-x-2">
-                                <audio controls src="${audioUrl}" class="h-8 w-36"></audio>
-                                <a href="${audioUrl}" download="SPM_${escapeHtml(rec.studentName)}_${rec.id}.webm" class="text-blue-600 hover:text-blue-800 p-1" title="Muat Turun Audio">
-                                    <i class="fa-solid fa-download"></i>
-                                </a>
-                            </div>
-                        ` : `<span class="text-slate-400 italic">Recording unavailable</span>`}
-                    </td>
-                    <td class="p-3.5 text-right">
-                        <button onclick="confirmDeleteSingleRecord('${rec.id}')" class="text-red-500 hover:text-red-700 p-1 rounded transition-colors" title="Delete">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-
-                // Mobile Card View
-                const card = document.createElement('div');
-                card.className = "p-4 space-y-3 bg-white";
-                card.innerHTML = `
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="font-bold text-slate-800 text-sm">${escapeHtml(rec.studentName)}</h4>
-                            <span class="text-xs text-slate-500">${escapeHtml(rec.className)} • ${rec.date} ${rec.time}</span>
-                        </div>
-                        <button onclick="confirmDeleteSingleRecord('${rec.id}')" class="text-red-500 hover:text-red-700 p-1">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </div>
-                    <div class="text-xs text-slate-600 bg-slate-50 p-2 rounded">
-                        <span class="font-bold text-blue-600">${escapeHtml(rec.part)}:</span> ${escapeHtml(rec.question)}
-                    </div>
-                    <div class="flex items-center justify-between pt-1">
-                        <span class="text-xs font-mono text-slate-500">Duration: ${rec.duration}</span>
-                        ${audioUrl ? `
-                            <div class="flex items-center space-x-2">
-                                <audio controls src="${audioUrl}" class="h-8 w-36"></audio>
-                                <a href="${audioUrl}" download="SPM_${escapeHtml(rec.studentName)}_${rec.id}.webm" class="text-blue-600 hover:text-blue-800 p-1" title="Muat Turun Audio">
-                                    <i class="fa-solid fa-download"></i>
-                                </a>
-                            </div>
-                        ` : `<span class="text-xs text-slate-400 italic">Unavailable</span>`}
-                    </div>
-                `;
-                cardList.appendChild(card);
-            });
+            } catch (e) {
+                console.log("Apps Script GET unavailable or no records returned.");
+            }
         }
 
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-        }
-
-        let pendingAction = null;
-
-        function confirmDeleteSingleRecord(id) {
-            showConfirmationModal(
-                "Delete Submission",
-                "Are you sure you want to delete this student practice submission? This cannot be undone.",
-                async () => {
-                    await deleteSubmissionFromDB(id);
-                    await loadTeacherDashboard();
-                }
-            );
-        }
-
-        function confirmClearAllDemoData() {
-            showConfirmationModal(
-                "Clear All Practice Data",
-                "Are you sure you want to clear ALL student records from this browser storage?",
-                async () => {
-                    await clearAllSubmissionsFromDB();
-                    await loadTeacherDashboard();
-                }
-            );
-        }
-
-        function showConfirmationModal(title, description, onConfirm) {
-            document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-description').textContent = description;
-            
-            const modal = document.getElementById('confirm-modal');
-            const btnConfirm = document.getElementById('modal-btn-confirm');
-            const btnCancel = document.getElementById('modal-btn-cancel');
-
-            pendingAction = onConfirm;
-            modal.classList.remove('hidden');
-
-            btnConfirm.onclick = async () => {
-                if (pendingAction) await pendingAction();
-                modal.classList.add('hidden');
-            };
-
-            btnCancel.onclick = () => {
-                modal.classList.add('hidden');
-            };
-        }
-
-        window.addEventListener('DOMContentLoaded', async () => {
-            await initDatabase();
-            showScreen('home');
-        });
+        // Pre-fetch Question Bank on page load
+        window.onload = function() {
+            fetchQuestionsFromBank();
+        };
     </script>
 </body>
 </html>
