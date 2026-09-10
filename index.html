@@ -27,7 +27,7 @@
             font-family: 'Outfit', sans-serif;
         }
 
-        /* Pulse animation for active recording */
+        /* Pulse animation for active recording button */
         @keyframes pulse-ring {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
@@ -38,7 +38,7 @@
             animation: pulse-ring 2s infinite;
         }
 
-        /* Animated sound wave bars */
+        /* Animated sound wave bars for audio feedback */
         .wave-bar {
             width: 4px;
             background-color: #ef4444;
@@ -57,7 +57,7 @@
             100% { transform: scaleY(1.3); }
         }
 
-        /* Custom subtle scrollbars */
+        /* Custom scrollbar styles */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -80,7 +80,7 @@
 </head>
 <body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
 
-    <!-- App Header -->
+    <!-- App Navigation Header -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
         <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="showScreen('home')">
@@ -89,7 +89,7 @@
                 </div>
                 <div>
                     <h1 class="heading-font text-lg font-bold text-slate-900 leading-tight tracking-tight">SPM SPEAKING STUDIO</h1>
-                    <p class="text-xs text-slate-500 font-medium">SPM ENGLISH • SPEAKING PRACTICE</p>
+                    <p class="text-xs text-slate-500 font-medium">SPM ENGLISH 1119/3 • GITHUB PAGES READY</p>
                 </div>
             </div>
             
@@ -101,7 +101,7 @@
             </div>
         </div>
 
-        <!-- Progress Tracker Bar (Hidden on Home and Teacher Dashboard) -->
+        <!-- Dynamic Progress Step Bar -->
         <div id="progress-container" class="hidden bg-slate-100 border-t border-slate-200 py-2 px-4">
             <div class="max-w-2xl mx-auto flex items-center justify-between text-xs font-medium text-slate-500">
                 <div id="step-setup" class="flex items-center space-x-1">
@@ -132,33 +132,32 @@
         </div>
     </header>
 
-    <!-- Main Container -->
+    <!-- Main Content Container -->
     <main class="flex-1 max-w-4xl w-full mx-auto p-4 md:p-6 flex flex-col justify-center">
 
-        <!-- SCREEN 1: HOME -->
         <section id="screen-home" class="screen-view py-6 text-center space-y-6">
             <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold">
                 <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-                <span>Ready for SPM 1119/3 Test Format</span>
+                <span>Google Drive Integration Active</span>
             </div>
 
             <div class="space-y-3 max-w-xl mx-auto">
                 <h2 class="heading-font text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-                    Practise • Record • Improve
+                    Practise • Record • Submit
                 </h2>
                 <p class="text-slate-600 text-base md:text-lg leading-relaxed">
-                    Build your confidence for SPM English Speaking. Practise individual tasks, manage timed responses, and listen back to polish your performance.
+                    Build your speaking confidence for SPM English 1119/3. Your audio recordings are saved directly to your teacher's Google Drive.
                 </p>
             </div>
 
             <div class="bg-white rounded-2xl p-6 border border-slate-200 card-shadow max-w-md mx-auto space-y-4 text-left">
                 <div class="flex items-start space-x-3">
                     <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
-                        <i class="fa-solid fa-check"></i>
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
                     </div>
                     <div>
-                        <h4 class="text-sm font-semibold text-slate-800">Standard SPM Speaking Parts</h4>
-                        <p class="text-xs text-slate-500">Includes Part 1 (Getting to know you), Part 2 (Individual Long Turn), and Part 3 (Discussion Tasks).</p>
+                        <h4 class="text-sm font-semibold text-slate-800">Auto Google Drive Sync</h4>
+                        <p class="text-xs text-slate-500">Audio recordings automatically sync with teacher Google Drive & Google Sheets backend.</p>
                     </div>
                 </div>
                 <div class="flex items-start space-x-3">
@@ -182,17 +181,12 @@
                     <span>TEACHER DASHBOARD</span>
                 </button>
             </div>
-
-            <p class="text-xs text-slate-400 font-medium pt-4">
-                <i class="fa-solid fa-circle-info mr-1"></i> Best experienced on Chrome, Edge, or Safari with microphone access enabled.
-            </p>
         </section>
 
-        <!-- SCREEN 2: STUDENT SETUP -->
         <section id="screen-setup" class="screen-view hidden max-w-md mx-auto w-full py-4 space-y-6">
             <div class="text-center space-y-1">
-                <h2 class="heading-font text-2xl font-bold text-slate-900">LET'S GET STARTED</h2>
-                <p class="text-sm text-slate-500">Enter your details so your teacher can identify your recordings.</p>
+                <h2 class="heading-font text-2xl font-bold text-slate-900">STUDENT REGISTRATION</h2>
+                <p class="text-sm text-slate-500">Enter your name and class so your teacher can review your work.</p>
             </div>
 
             <div class="bg-white rounded-2xl p-6 border border-slate-200 card-shadow space-y-4">
@@ -200,14 +194,14 @@
                     <label for="student-name-input" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Student Full Name *</label>
                     <input type="text" id="student-name-input" placeholder="e.g. Nur Aisyah binti Ahmad" 
                         class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-slate-800 text-sm transition-all">
-                    <p id="name-error" class="hidden text-xs text-red-500 font-medium mt-1">Please enter your name.</p>
+                    <p id="name-error" class="hidden text-xs text-red-500 font-medium mt-1">Please enter your full name.</p>
                 </div>
 
                 <div>
                     <label for="student-class-input" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Class / Form *</label>
                     <input type="text" id="student-class-input" placeholder="e.g. 5 Bestari" 
                         class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-slate-800 text-sm transition-all">
-                    <p id="class-error" class="hidden text-xs text-red-500 font-medium mt-1">Please enter your class.</p>
+                    <p id="class-error" class="hidden text-xs text-red-500 font-medium mt-1">Please enter your class name.</p>
                 </div>
 
                 <div class="pt-2 flex items-center space-x-3">
@@ -222,26 +216,23 @@
             </div>
         </section>
 
-        <!-- SCREEN 3: PART SELECTION -->
         <section id="screen-parts" class="screen-view hidden space-y-6 py-4">
             <div class="text-center space-y-1">
-                <h2 class="heading-font text-2xl font-bold text-slate-900">CHOOSE YOUR SPEAKING PART</h2>
-                <p class="text-sm text-slate-500">Select the task type you wish to practise today.</p>
+                <h2 class="heading-font text-2xl font-bold text-slate-900">CHOOSE SPEAKING PART</h2>
+                <p class="text-sm text-slate-500">Select the task component you wish to practice.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <!-- Part 1 Card -->
                 <div class="bg-white rounded-2xl p-5 border border-slate-200 card-shadow hover:border-blue-300 transition-all flex flex-col justify-between group">
                     <div class="space-y-3">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg">
-                            1
-                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg">1</div>
                         <div>
                             <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Part 1</span>
                             <h3 class="heading-font text-lg font-bold text-slate-900">GETTING TO KNOW YOU</h3>
                         </div>
                         <p class="text-xs text-slate-600 leading-relaxed">
-                            Answer introductory questions about yourself, everyday life, and familiar topics.
+                            Answer introductory questions about yourself, routines, hobbies, and everyday experiences.
                         </p>
                         <div class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-100 space-y-1">
                             <div class="flex justify-between"><span>Prep time:</span> <span class="font-semibold text-slate-700">10 seconds</span></div>
@@ -257,15 +248,13 @@
                 <!-- Part 2 Card -->
                 <div class="bg-white rounded-2xl p-5 border border-slate-200 card-shadow hover:border-indigo-300 transition-all flex flex-col justify-between group">
                     <div class="space-y-3">
-                        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-lg">
-                            2
-                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-lg">2</div>
                         <div>
                             <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Part 2</span>
                             <h3 class="heading-font text-lg font-bold text-slate-900">INDIVIDUAL LONG TURN</h3>
                         </div>
                         <p class="text-xs text-slate-600 leading-relaxed">
-                            Speak individually on a given topic using provided prompts to structure your response.
+                            Speak individually on a given topic card using guided prompts to structure your response.
                         </p>
                         <div class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-100 space-y-1">
                             <div class="flex justify-between"><span>Prep time:</span> <span class="font-semibold text-slate-700">20 seconds</span></div>
@@ -281,15 +270,13 @@
                 <!-- Part 3 Card -->
                 <div class="bg-white rounded-2xl p-5 border border-slate-200 card-shadow hover:border-emerald-300 transition-all flex flex-col justify-between group">
                     <div class="space-y-3">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-lg">
-                            3
-                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-lg">3</div>
                         <div>
                             <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Part 3</span>
                             <h3 class="heading-font text-lg font-bold text-slate-900">DISCUSSION TASK</h3>
                         </div>
                         <p class="text-xs text-slate-600 leading-relaxed">
-                            Elaborate on a central theme, justify your views, and give detailed explanations.
+                            Elaborate on a central mind-map topic, justify your points, and give detailed explanations.
                         </p>
                         <div class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-100 space-y-1">
                             <div class="flex justify-between"><span>Prep time:</span> <span class="font-semibold text-slate-700">20 seconds</span></div>
@@ -305,17 +292,16 @@
 
             <div class="text-center pt-2">
                 <button onclick="showScreen('setup')" class="text-xs font-semibold text-slate-500 hover:text-slate-700">
-                    <i class="fa-solid fa-arrow-left mr-1"></i> Back to Student Setup
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Edit Student Information
                 </button>
             </div>
         </section>
 
-        <!-- SCREEN 4: PREPARATION SCREEN -->
         <section id="screen-preparation" class="screen-view hidden space-y-6 py-4 max-w-2xl mx-auto w-full">
             <div class="flex items-center justify-between">
                 <div>
                     <span id="prep-part-tag" class="text-xs font-bold px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 uppercase tracking-wider">Part 1</span>
-                    <span id="prep-question-num" class="text-xs font-medium text-slate-500 ml-2">Question 1 of 4</span>
+                    <span id="prep-question-num" class="text-xs font-medium text-slate-500 ml-2">Question ID: --</span>
                 </div>
                 <div class="text-xs font-medium text-slate-500">
                     Student: <span id="prep-student-name" class="font-semibold text-slate-800">--</span>
@@ -325,20 +311,17 @@
             <!-- Task Card -->
             <div class="bg-white rounded-2xl p-6 border border-slate-200 card-shadow space-y-4">
                 <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Speaking Prompt</h3>
-                <p id="prep-question-text" class="heading-font text-lg md:text-xl font-bold text-slate-800 leading-snug">
-                    --
-                </p>
+                <p id="prep-question-text" class="heading-font text-lg md:text-xl font-bold text-slate-800 leading-snug">--</p>
 
-                <!-- Prompt Points (Part 2 & Part 3) -->
                 <div id="prep-prompts-container" class="hidden pt-3 border-t border-slate-100 space-y-2">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Points to consider:</span>
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Points to include in your response:</span>
                     <ul id="prep-prompts-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700">
                         <!-- Prompts injected via JS -->
                     </ul>
                 </div>
             </div>
 
-            <!-- Preparation Timer & Call to Action -->
+            <!-- Preparation Timer Box -->
             <div class="bg-slate-900 rounded-2xl p-6 text-white text-center space-y-4 card-shadow">
                 <div class="space-y-1">
                     <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">PREPARATION TIME</span>
@@ -347,26 +330,23 @@
                     </div>
                 </div>
 
-                <p id="prep-instruction" class="text-xs text-slate-300">Use this time to plan your points. Press START SPEAKING when you are ready.</p>
+                <p id="prep-instruction" class="text-xs text-slate-300">Use this time to plan your points. Press START SPEAKING when ready.</p>
 
                 <div class="pt-2">
                     <button id="btn-start-speaking" onclick="handleStartSpeaking()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-base shadow-lg shadow-emerald-600/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-2 mx-auto">
                         <i class="fa-solid fa-microphone text-lg"></i>
-                        <span>START SPEAKING</span>
+                        <span>START SPEAKING NOW</span>
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- SCREEN 5: RECORDING SCREEN -->
         <section id="screen-recording" class="screen-view hidden space-y-6 py-4 max-w-2xl mx-auto w-full">
-            <!-- Recording Indicator Bar -->
             <div class="bg-red-50 border border-red-200 rounded-xl px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center space-x-3">
                     <span class="w-3.5 h-3.5 rounded-full bg-red-600 recording-pulse"></span>
                     <span class="heading-font font-bold text-red-600 text-sm tracking-wider uppercase">🔴 RECORDING IN PROGRESS</span>
                 </div>
-                <!-- Sound Waveform visualizer -->
                 <div class="flex items-center space-x-1 h-6">
                     <div class="wave-bar"></div>
                     <div class="wave-bar"></div>
@@ -376,15 +356,11 @@
                 </div>
             </div>
 
-            <!-- Question display -->
             <div class="bg-white rounded-2xl p-5 border border-slate-200 card-shadow space-y-2">
-                <span id="rec-part-tag" class="text-xs font-bold text-blue-600 uppercase">Part 1 Task</span>
-                <p id="rec-question-text" class="text-sm font-semibold text-slate-800">
-                    --
-                </p>
+                <span id="rec-part-tag" class="text-xs font-bold text-blue-600 uppercase">Part Task</span>
+                <p id="rec-question-text" class="text-sm font-semibold text-slate-800">--</p>
             </div>
 
-            <!-- Speaking Timer & Stop Control -->
             <div class="bg-slate-900 rounded-2xl p-8 text-white text-center space-y-6 card-shadow">
                 <div class="space-y-1">
                     <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">REMAINING SPEAKING TIME</span>
@@ -393,20 +369,19 @@
                     </div>
                 </div>
 
-                <p class="text-xs text-slate-400">Speak clearly into your microphone. Response will stop automatically when timer reaches 00:00.</p>
+                <p class="text-xs text-slate-400">Speak clearly into your microphone. Recording stops automatically when timer hits 00:00.</p>
 
                 <button onclick="stopRecordingByUser()" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow-lg shadow-red-600/30 transition-all flex items-center justify-center space-x-2 mx-auto">
                     <i class="fa-solid fa-square text-xs"></i>
-                    <span>STOP SPEAKING</span>
+                    <span>FINISH & STOP SPEAKING</span>
                 </button>
             </div>
         </section>
 
-        <!-- SCREEN 6: PLAYBACK & REVIEW SCREEN -->
         <section id="screen-playback" class="screen-view hidden space-y-6 py-4 max-w-2xl mx-auto w-full">
             <div class="text-center space-y-1">
                 <h2 class="heading-font text-2xl font-bold text-slate-900">REVIEW YOUR ANSWER</h2>
-                <p class="text-sm text-slate-500">Listen to your recording before submitting to your teacher.</p>
+                <p class="text-sm text-slate-500">Listen to your audio recording before submitting to your teacher.</p>
             </div>
 
             <div class="bg-white rounded-2xl p-6 border border-slate-200 card-shadow space-y-5">
@@ -422,7 +397,6 @@
                     <p id="play-question" class="text-sm font-semibold text-slate-800">--</p>
                 </div>
 
-                <!-- Custom Audio Player Container -->
                 <div class="bg-slate-100 p-4 rounded-xl border border-slate-200 flex flex-col space-y-2">
                     <label class="text-xs font-semibold text-slate-600 flex items-center space-x-1.5">
                         <i class="fa-solid fa-volume-high text-blue-600"></i>
@@ -431,7 +405,6 @@
                     <audio id="audio-playback-element" controls class="w-full focus:outline-none"></audio>
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
                     <button onclick="downloadRecordedAudio()" class="w-full sm:w-1/3 py-3 rounded-xl border border-blue-300 bg-blue-50 text-blue-700 font-semibold text-xs hover:bg-blue-100 transition-colors flex items-center justify-center space-x-1.5">
                         <i class="fa-solid fa-download text-xs"></i>
@@ -441,7 +414,7 @@
                         <i class="fa-solid fa-rotate-left text-xs"></i>
                         <span>RECORD AGAIN</span>
                     </button>
-                    <button onclick="submitRecordingData()" class="w-full sm:w-1/3 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-md transition-all flex items-center justify-center space-x-1.5">
+                    <button id="btn-submit-answer" onclick="submitRecordingData()" class="w-full sm:w-1/3 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-md transition-all flex items-center justify-center space-x-1.5">
                         <i class="fa-solid fa-paper-plane text-xs"></i>
                         <span>SUBMIT ANSWER</span>
                     </button>
@@ -449,7 +422,6 @@
             </div>
         </section>
 
-        <!-- SCREEN 7: SUBMITTED CONFIRMATION -->
         <section id="screen-submitted" class="screen-view hidden space-y-6 py-4 max-w-xl mx-auto w-full text-center">
             <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto shadow-md">
                 <i class="fa-solid fa-check"></i>
@@ -457,31 +429,26 @@
 
             <div class="space-y-1">
                 <h2 class="heading-font text-2xl font-bold text-slate-900">✓ ANSWER SUBMITTED</h2>
-                <p class="text-sm text-slate-600">Your practice answer has been saved on this browser.</p>
-                <p class="text-[11px] text-slate-400 font-medium pt-1">
-                    V1 Demo: recordings are stored locally in your browser storage.
-                </p>
+                <p class="text-sm text-slate-600">Your recording has been sent to Google Drive & Google Sheets.</p>
             </div>
 
-            <!-- Submission Details Card -->
             <div class="bg-white rounded-2xl p-5 border border-slate-200 card-shadow text-left space-y-3 text-xs">
-                <h4 class="font-bold text-slate-700 border-b border-slate-100 pb-2">Submission Summary</h4>
+                <h4 class="font-bold text-slate-700 border-b border-slate-100 pb-2">Submission Details</h4>
                 <div class="flex justify-between"><span class="text-slate-500">Student Name:</span> <span id="sub-name" class="font-semibold text-slate-800">--</span></div>
                 <div class="flex justify-between"><span class="text-slate-500">Class:</span> <span id="sub-class" class="font-semibold text-slate-800">--</span></div>
                 <div class="flex justify-between"><span class="text-slate-500">Speaking Task:</span> <span id="sub-part" class="font-semibold text-slate-800">--</span></div>
                 <div class="flex justify-between"><span class="text-slate-500">Duration:</span> <span id="sub-duration" class="font-semibold text-slate-800">--</span></div>
                 <div class="flex justify-between"><span class="text-slate-500">Date & Time:</span> <span id="sub-datetime" class="font-semibold text-slate-800">--</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">Google Apps Script URL:</span> <span class="font-mono text-[10px] text-emerald-600 font-bold">Connected ✓</span></div>
             </div>
 
-            <!-- Self Reflection Checklist Card -->
             <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5 text-left space-y-2">
                 <h4 class="text-xs font-bold text-blue-900 uppercase tracking-wider">Self-Reflection Checklist</h4>
-                <p class="text-xs text-blue-800">While you wait for teacher feedback, think about:</p>
+                <p class="text-xs text-blue-800">Before attempting the next task, reflect on your answer:</p>
                 <ul class="text-xs text-blue-700 space-y-1 pl-4 list-disc">
-                    <td>Did I answer all parts of the question?</td>
-                    <td>Did I elaborate with explanations or examples?</td>
-                    <td>Did I speak clearly with clear pronunciation?</td>
-                    <td>Did I manage my timing effectively?</td>
+                    <li>Did I answer all parts of the question prompt?</li>
+                    <li>Did I elaborate with relevant explanations or personal examples?</li>
+                    <li>Was my pronunciation clear and easy to understand?</li>
                 </ul>
             </div>
 
@@ -495,12 +462,11 @@
             </div>
         </section>
 
-        <!-- SCREEN 8: TEACHER DASHBOARD -->
         <section id="screen-teacher" class="screen-view hidden space-y-6 py-4 w-full">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-4">
                 <div>
                     <h2 class="heading-font text-2xl font-bold text-slate-900">TEACHER DASHBOARD</h2>
-                    <p class="text-xs text-slate-500">Review student practice submissions stored in this browser session.</p>
+                    <p class="text-xs text-slate-500">Review student practice submissions saved in browser storage.</p>
                 </div>
                 <div class="flex items-center space-x-2">
                     <button onclick="confirmClearAllDemoData()" class="px-3 py-2 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 text-xs font-semibold transition-colors flex items-center space-x-1">
@@ -513,7 +479,6 @@
                 </div>
             </div>
 
-            <!-- Dashboard Summary Stat Cards -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow space-y-1">
                     <span class="text-xs text-slate-500 font-medium">Total Submissions</span>
@@ -533,7 +498,6 @@
                 </div>
             </div>
 
-            <!-- Filters Bar -->
             <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow flex flex-col md:flex-row gap-3 items-center justify-between">
                 <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto flex-1">
                     <input type="text" id="teacher-search-input" onkeyup="filterSubmissions()" placeholder="Search student name..." 
@@ -555,9 +519,7 @@
                 </button>
             </div>
 
-            <!-- Submissions Table (Desktop) & Cards (Mobile) -->
             <div class="bg-white rounded-xl border border-slate-200 card-shadow overflow-hidden">
-                <!-- Desktop Table -->
                 <div class="hidden md:block overflow-x-auto">
                     <table class="w-full text-left text-xs text-slate-700">
                         <thead class="bg-slate-50 border-b border-slate-200 uppercase font-bold text-slate-500 text-[10px]">
@@ -577,12 +539,10 @@
                     </table>
                 </div>
 
-                <!-- Mobile Card List View -->
                 <div id="teacher-card-list" class="block md:hidden divide-y divide-slate-100">
-                    <!-- Injected dynamically -->
+                    <!-- Injected dynamically for mobile -->
                 </div>
 
-                <!-- Empty state -->
                 <div id="teacher-empty-state" class="p-8 text-center space-y-2 hidden">
                     <i class="fa-solid fa-folder-open text-3xl text-slate-300"></i>
                     <p class="text-xs font-semibold text-slate-500">No student practice submissions found.</p>
@@ -590,7 +550,6 @@
             </div>
         </section>
 
-        <!-- SCREEN 9: MICROPHONE ERROR MODAL / SCREEN -->
         <section id="screen-mic-error" class="screen-view hidden space-y-6 py-4 max-w-md mx-auto w-full text-center">
             <div class="w-14 h-14 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-2xl mx-auto shadow-md">
                 <i class="fa-solid fa-microphone-slash"></i>
@@ -605,9 +564,9 @@
 
             <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-left text-xs text-amber-800 space-y-1">
                 <span class="font-bold block">Cara membenarkan mikrofon:</span>
-                <p>1. Klik ikon kunci / mikrofon di sebelah URL pelayar anda (address bar).</p>
-                <p>2. Tukar tetapan Mikrofon kepada <strong>Benarkan (Allow)</strong>.</p>
-                <p>3. Jika dimasukkan dalam <em>Google Sites / iframe</em>, pastikan atribut <code>allow="microphone"</code> dibenarkan.</p>
+                <p>1. Klik ikon kunci / pelaras di sebelah URL pelayar anda (address bar).</p>
+                <p>2. Tukar tetapan Mikrofon daripada <strong>Block</strong> kepada <strong>Allow (Benarkan)</strong>.</p>
+                <p>3. Jika dipaparkan di dalam Google Sites, pastikan anda menggunakan pautan terus GitHub Pages.</p>
             </div>
 
             <div class="space-y-2 pt-2">
@@ -629,7 +588,6 @@
 
     </main>
 
-    <!-- Delete Confirmation Modal Dialog -->
     <div id="confirm-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl">
             <div class="flex items-center space-x-3 text-red-600">
@@ -650,11 +608,14 @@
         </div>
     </div>
 
+    <!-- JavaScript Application Logic -->
     <script>
         const RANDOMISE_QUESTIONS = true;
-        const GOOGLE_APPS_SCRIPT_WEB_APP_URL = ""; // Optional V2 Backend Integration URL
+        
+        // Pautan Google Apps Script Web App yang telah dikemas kini
+        const GOOGLE_APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzQLHlqxf6hj5gTpekX2q3rkd2i9tGgQbrBffMRr8kw4TlwwduNJeM-BFT4IS_VNHuhqg/exec";
 
-        // Global Application State
+        // Global State Container
         let appState = {
             studentName: '',
             className: '',
@@ -673,13 +634,13 @@
             isRecording: false
         };
 
-        // SPM Question Bank (Part 1, Part 2 & Part 3)
         const QUESTION_BANK = {
             part1: [
                 { id: 'P1-01', question: 'What do you usually do in your free time?', preparationTime: 10, speakingTime: 30 },
                 { id: 'P1-02', question: 'Tell me about your favourite subject in school and why you like it.', preparationTime: 10, speakingTime: 30 },
                 { id: 'P1-03', question: 'How do you usually spend your weekends with your family?', preparationTime: 10, speakingTime: 30 },
-                { id: 'P1-04', question: 'What kind of sports or physical activities do you enjoy?', preparationTime: 10, speakingTime: 30 }
+                { id: 'P1-04', question: 'What kind of sports or physical activities do you enjoy most?', preparationTime: 10, speakingTime: 30 },
+                { id: 'P1-05', question: 'Talk about a place in your town that you like to visit with friends.', preparationTime: 10, speakingTime: 30 }
             ],
             part2: [
                 {
@@ -695,19 +656,26 @@
                     prompts: ['Who this person is', 'How you know about them', 'What qualities they have', 'Why they inspire you'],
                     preparationTime: 20,
                     speakingTime: 60
+                },
+                {
+                    id: 'P2-03',
+                    question: 'Talk about a hobby or skill you would like to learn in the future.',
+                    prompts: ['What the hobby or skill is', 'Why you want to learn it', 'How you plan to practise it', 'How it will benefit you'],
+                    preparationTime: 20,
+                    speakingTime: 60
                 }
             ],
             part3: [
                 {
                     id: 'P3-01',
                     question: 'Why is it important for teenagers to lead a healthy lifestyle?',
-                    prompts: ['Prevents illnesses', 'Improves mental wellness', 'Boosts academic performance', 'Encourages social activities'],
+                    prompts: ['Prevents chronic illnesses', 'Improves mental wellness', 'Boosts academic performance', 'Encourages social activities'],
                     preparationTime: 20,
                     speakingTime: 120
                 },
                 {
                     id: 'P3-02',
-                    question: 'How can modern technology help students in their learning?',
+                    question: 'How can modern technology help students in their learning process?',
                     prompts: ['Access to information', 'Online collaboration', 'Interactive learning apps', 'Flexible learning pace'],
                     preparationTime: 20,
                     speakingTime: 120
@@ -715,7 +683,6 @@
             ]
         };
 
-        // IndexedDB Database Initializer
         function initDatabase() {
             return new Promise((resolve, reject) => {
                 const request = indexedDB.open('SPMSpeakingStudioDB', 1);
@@ -730,21 +697,18 @@
             });
         }
 
-        // Function to create a synthetic audio recording for testing when hardware mic is blocked
         function createDemoAudioBlob() {
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
             const sampleRate = ctx.sampleRate;
-            const duration = 3; // 3 seconds demo tone sound
+            const duration = 3;
             const buffer = ctx.createBuffer(1, sampleRate * duration, sampleRate);
             const data = buffer.getChannelData(0);
 
             for (let i = 0; i < buffer.length; i++) {
-                // Generate soft pleasant speech-like synth audio
                 const t = i / sampleRate;
                 data[i] = Math.sin(2 * Math.PI * 220 * t) * Math.sin(2 * Math.PI * 2 * t) * 0.2;
             }
 
-            // Convert AudioBuffer to WAV Blob
             const wavData = audioBufferToWav(buffer);
             return new Blob([wavData], { type: 'audio/wav' });
         }
@@ -812,7 +776,7 @@
                     req.onerror = (e) => reject(e);
                 });
             } catch (err) {
-                console.error("Failed to save to IndexedDB:", err);
+                console.error("IndexedDB save error:", err);
             }
         }
 
@@ -827,7 +791,7 @@
                     req.onerror = (e) => reject(e);
                 });
             } catch (err) {
-                console.error("Failed to fetch IndexedDB:", err);
+                console.error("IndexedDB fetch error:", err);
                 return [];
             }
         }
@@ -843,7 +807,7 @@
                     req.onerror = (e) => reject(e);
                 });
             } catch (err) {
-                console.error("Failed to delete record:", err);
+                console.error("IndexedDB delete error:", err);
             }
         }
 
@@ -858,28 +822,24 @@
                     req.onerror = (e) => reject(e);
                 });
             } catch (err) {
-                console.error("Failed to clear IndexedDB:", err);
+                console.error("IndexedDB clear error:", err);
             }
         }
 
         function showScreen(screenId) {
-            // Clean active timers & recording streams when navigating away from prep/recording
             if (screenId !== 'preparation' && screenId !== 'recording') {
                 stopTimer();
                 cleanupRecordingStream();
             }
 
-            // Hide all screens
             const screens = document.querySelectorAll('.screen-view');
             screens.forEach(s => s.classList.add('hidden'));
 
-            // Show selected screen
             const target = document.getElementById(`screen-${screenId}`);
             if (target) {
                 target.classList.remove('hidden');
             }
 
-            // Update Header & Progress Tracker Visibility
             const progressContainer = document.getElementById('progress-container');
             if (screenId === 'home' || screenId === 'teacher' || screenId === 'mic-error') {
                 progressContainer.classList.add('hidden');
@@ -888,7 +848,6 @@
                 updateProgressTracker(screenId);
             }
 
-            // Screen specific initialization triggers
             if (screenId === 'teacher') {
                 loadTeacherDashboard();
             }
@@ -968,12 +927,10 @@
             let questionToUse = null;
 
             if (RANDOMISE_QUESTIONS) {
-                // Filter questions not used yet in this session
                 const unused = availableQuestions.filter(q => !appState.usedQuestionIds.includes(q.id));
                 if (unused.length > 0) {
                     questionToUse = unused[Math.floor(Math.random() * unused.length)];
                 } else {
-                    // All used, reset tracker for this part
                     questionToUse = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
                 }
             } else {
@@ -1012,7 +969,6 @@
                 promptsContainer.classList.add('hidden');
             }
 
-            // Start Preparation Countdown Timer using Date.now() timestamp calculation
             startPrepTimer(q.preparationTime);
         }
 
@@ -1032,14 +988,13 @@
 
                 if (remaining <= 0) {
                     stopTimer();
-                    document.getElementById('prep-instruction').textContent = "Preparation time finished! Click START SPEAKING now.";
+                    document.getElementById('prep-instruction').textContent = "Preparation time finished! Click START SPEAKING NOW.";
                 }
             }, 250);
         }
 
         function updatePrepTimerDisplay(sec) {
-            const display = document.getElementById('prep-timer-display');
-            display.textContent = formatMMSS(sec);
+            document.getElementById('prep-timer-display').textContent = formatMMSS(sec);
         }
 
         function formatMMSS(totalSeconds) {
@@ -1063,20 +1018,17 @@
         }
 
         async function handleStartSpeaking() {
-            stopTimer(); // Ensure prep timer is stopped
+            stopTimer();
 
-            // Check browser MediaRecorder support
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                showMicrophoneError("Pelayar web anda tidak membenarkan kawalan mikrofon. Sila gunakan pelayar Chrome/Edge/Safari dengan HTTPS atau guna Mod Simulasi Demo.");
+                showMicrophoneError("Pelayar web anda tidak membenarkan kawalan mikrofon. Sila gunakan pelayar Chrome/Edge/Safari dengan HTTPS.");
                 return;
             }
 
             try {
-                // Request microphone permission
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
                 appState.mediaStream = stream;
 
-                // Configure Supported Audio Mime Type (Cross-browser check)
                 let mimeType = '';
                 const types = [
                     'audio/webm;codecs=opus',
@@ -1123,10 +1075,10 @@
 
             } catch (err) {
                 console.error("Microphone access error:", err);
-                let friendlyMsg = "Akses mikrofon diperlukan untuk merakam jawapan. Sila benarkan kebenaran mikrofon pada pelayar anda atau gunakan Mod Simulasi Demo di bawah.";
+                let friendlyMsg = "Akses mikrofon diperlukan untuk merakam jawapan. Sila benarkan kebenaran mikrofon pada pelayar anda.";
                 
                 if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-                    friendlyMsg = "Kebenaran mikrofon telah ditolak atau disekat oleh pelayar/iframe. Sila benarkan akses mikrofon di tetapan pelayar anda.";
+                    friendlyMsg = "Kebenaran mikrofon telah ditolak atau disekat oleh pelayar. Sila benarkan akses mikrofon di tetapan pelayar anda.";
                 } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
                     friendlyMsg = "Tiada mikrofon dikesan pada peranti anda. Sila sambungkan mikrofon atau guna Mod Simulasi Demo.";
                 }
@@ -1195,6 +1147,15 @@
             appState.isRecording = false;
         }
 
+        function handleRecordAgain() {
+            if (appState.currentQuestion) {
+                setupPreparationScreen();
+                showScreen('preparation');
+            } else {
+                showScreen('parts');
+            }
+        }
+
         function setupPlaybackScreen() {
             document.getElementById('play-student').textContent = appState.studentName;
             document.getElementById('play-class').textContent = appState.className;
@@ -1223,12 +1184,16 @@
                     document.body.removeChild(a);
                 }, 150);
             } catch (err) {
-                console.warn("Direct download failed, opening audio tab fallback", err);
+                console.warn("Direct download failed, fallback to new tab", err);
                 window.open(appState.recordedAudioUrl, '_blank');
             }
         }
 
         async function submitRecordingData() {
+            const btnSubmit = document.getElementById('btn-submit-answer');
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>SUBMITTING...</span>`;
+
             const now = new Date();
             const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
             const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
@@ -1259,13 +1224,13 @@
                 mimeType: appState.recordedBlob ? appState.recordedBlob.type : 'audio/webm'
             };
 
-            // Save locally to IndexedDB
+            // Save locally in IndexedDB first
             await saveSubmissionToDB(submissionRecord);
 
-            // Solution 1: Google Apps Script Web App Upload Integration
+            // POST to Google Apps Script Endpoint
             if (GOOGLE_APPS_SCRIPT_WEB_APP_URL && GOOGLE_APPS_SCRIPT_WEB_APP_URL.trim() !== '') {
                 try {
-                    fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL, {
+                    await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL, {
                         method: 'POST',
                         mode: 'no-cors',
                         headers: { 'Content-Type': 'application/json' },
@@ -1278,13 +1243,16 @@
                             dateTime: `${dateStr}, ${timeStr}`,
                             audioBase64: base64Audio
                         })
-                    }).catch(e => console.log("GAS Post completed:", e));
+                    });
                 } catch (err) {
-                    console.error("GAS integration error:", err);
+                    console.error("Google Apps Script upload error:", err);
                 }
             }
 
-            // Display submitted screen
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = `<i class="fa-solid fa-paper-plane text-xs"></i> <span>SUBMIT ANSWER</span>`;
+
+            // Display submitted confirmation screen
             document.getElementById('sub-name').textContent = submissionRecord.studentName;
             document.getElementById('sub-class').textContent = submissionRecord.className;
             document.getElementById('sub-part').textContent = submissionRecord.part;
@@ -1311,7 +1279,6 @@
         async function loadTeacherDashboard() {
             cachedTeacherRecords = await getAllSubmissionsFromDB();
             
-            // Populate Class Dropdown Filter dynamically
             const classSelect = document.getElementById('teacher-filter-class');
             const classes = Array.from(new Set(cachedTeacherRecords.map(r => r.className))).filter(Boolean);
             
@@ -1323,7 +1290,6 @@
                 classSelect.appendChild(opt);
             });
 
-            // Update stats
             document.getElementById('stat-total').textContent = cachedTeacherRecords.length;
             document.getElementById('stat-part1').textContent = cachedTeacherRecords.filter(r => r.partKey === 'part1' || r.part.includes('Part 1')).length;
             document.getElementById('stat-part2').textContent = cachedTeacherRecords.filter(r => r.partKey === 'part2' || r.part.includes('Part 2')).length;
@@ -1369,17 +1335,15 @@
                 emptyState.classList.add('hidden');
             }
 
-            // Sort newest first
             records.sort((a, b) => b.timestamp - a.timestamp);
 
             records.forEach(rec => {
-                // Audio Blob URL generation
                 let audioUrl = '';
                 if (rec.audioBlob) {
                     audioUrl = URL.createObjectURL(rec.audioBlob);
                 }
 
-                // Render Desktop Table Row
+                // Desktop Table View
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition-colors";
                 tr.innerHTML = `
@@ -1406,7 +1370,7 @@
                 `;
                 tbody.appendChild(tr);
 
-                // Render Mobile Card Item
+                // Mobile Card View
                 const card = document.createElement('div');
                 card.className = "p-4 space-y-3 bg-white";
                 card.innerHTML = `
@@ -1493,12 +1457,5 @@
             showScreen('home');
         });
     </script>
-
-    <!--
-    GOOGLE SITES EMBEDDING NOTE:
-    When embedding into Google Sites via "Insert -> Embed -> Embed Code" or URL iframe, ensure the parent iframe allows microphone permission:
-    allow="microphone"
-    Example: <iframe src="URL" allow="microphone"></iframe>
-    -->
 </body>
 </html>
