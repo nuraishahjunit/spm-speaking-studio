@@ -81,8 +81,8 @@
             <p class="text-xs text-slate-400 mt-6 max-w-xs leading-normal">
                 💡 Note: Use Chrome or Safari and make sure your device has a working microphone.
             </p>
-            <button onclick="openTeacherDashboard()" class="mt-8 text-xs font-semibold text-slate-500 hover:text-blue-600 underline decoration-slate-300 underline-offset-4">
-                TEACHER DASHBOARD
+            <button onclick="promptTeacherPassword()" class="mt-8 text-xs font-semibold text-slate-500 hover:text-blue-600 flex items-center justify-center gap-1.5 mx-auto hover:underline decoration-slate-300 underline-offset-4">
+                🔒 Teacher Dashboard
             </button>
         </section>
 
@@ -411,9 +411,14 @@
                     <h2 class="text-2xl font-bold text-slate-900">TEACHER DASHBOARD</h2>
                     <p class="text-xs text-slate-500">Submission monitoring and response log</p>
                 </div>
-                <button onclick="navigateTo('screen-welcome')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition">
-                    ← Back to Home
-                </button>
+                <div class="flex items-center gap-2">
+                    <button onclick="lockTeacherDashboard()" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1">
+                        🔒 Lock Dashboard
+                    </button>
+                    <button onclick="navigateTo('screen-welcome')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition">
+                        ← Back to Home
+                    </button>
+                </div>
             </div>
 
             <!-- Summary Cards -->
@@ -463,6 +468,33 @@
 
     </main>
 
+    <!-- TEACHER PASSWORD AUTHENTICATION MODAL -->
+    <div id="teacher-auth-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-slate-100 text-center relative">
+            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-xl mx-auto mb-4 font-bold shadow-inner">
+                🔒
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-1">Teacher Access</h3>
+            <p class="text-xs text-slate-500 mb-5">Please enter the teacher password to continue.</p>
+            
+            <form onsubmit="handleTeacherPasswordSubmit(event)" class="space-y-4">
+                <div>
+                    <input type="password" id="input-teacher-password" placeholder="Enter password" autocomplete="current-password"
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition text-slate-800 text-center font-medium text-sm">
+                    <p id="password-error-msg" class="text-xs text-red-500 font-semibold mt-2 hidden">Incorrect password.</p>
+                </div>
+                <div class="flex gap-2 pt-2">
+                    <button type="button" onclick="closeTeacherAuthModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl text-xs transition">
+                        CANCEL
+                    </button>
+                    <button type="submit" class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs transition shadow-md shadow-blue-500/20">
+                        UNLOCK
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="w-full max-w-4xl text-center py-4 text-xs text-slate-400 mt-6">
         SPM Speaking Practice Application • Hostable on GitHub Pages
@@ -473,6 +505,9 @@
            1. CONFIGURATION & ENDPOINT URLS
            ========================================================================== */
         
+        const TEACHER_PASSWORD = "sorarusou98";
+        let teacherUnlocked = false;
+
         // Exact Submission Web App URL (UNCHANGED)
         const GOOGLE_APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzQLHlqxf6hj5gTpekX2q3rkd2i9tGgQbrBffMRr8kw4TlwwduNJeM-BFT4IS_VNHuhqg/exec";
 
@@ -681,6 +716,10 @@
            4. UI NAVIGATION & USER STATE HANDLERS
            ========================================================================== */
         function navigateTo(screenId) {
+            if (screenId === 'screen-teacher-dashboard' && !teacherUnlocked) {
+                promptTeacherPassword();
+                return;
+            }
             document.querySelectorAll('.app-screen').forEach(screen => {
                 screen.classList.add('hidden');
             });
@@ -1375,6 +1414,55 @@
            ========================================================================== */
         const localDashboardRecords = [];
 
+        function promptTeacherPassword() {
+            if (teacherUnlocked) {
+                openTeacherDashboard();
+                return;
+            }
+            const modal = document.getElementById('teacher-auth-modal');
+            const input = document.getElementById('input-teacher-password');
+            const errorMsg = document.getElementById('password-error-msg');
+            
+            if (input) input.value = '';
+            if (errorMsg) errorMsg.classList.add('hidden');
+            if (modal) modal.classList.remove('hidden');
+            setTimeout(() => { if (input) input.focus(); }, 100);
+        }
+
+        function closeTeacherAuthModal() {
+            const modal = document.getElementById('teacher-auth-modal');
+            const input = document.getElementById('input-teacher-password');
+            const errorMsg = document.getElementById('password-error-msg');
+            
+            if (modal) modal.classList.add('hidden');
+            if (input) input.value = '';
+            if (errorMsg) errorMsg.classList.add('hidden');
+        }
+
+        function handleTeacherPasswordSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('input-teacher-password');
+            const errorMsg = document.getElementById('password-error-msg');
+            const password = input ? input.value : '';
+
+            if (password === TEACHER_PASSWORD) {
+                teacherUnlocked = true;
+                closeTeacherAuthModal();
+                openTeacherDashboard();
+            } else {
+                if (errorMsg) errorMsg.classList.remove('hidden');
+                if (input) {
+                    input.value = '';
+                    input.focus();
+                }
+            }
+        }
+
+        function lockTeacherDashboard() {
+            teacherUnlocked = false;
+            navigateTo('screen-welcome');
+        }
+
         function recordInLocalDashboard(data) {
             localDashboardRecords.push({
                 student: data.studentName,
@@ -1389,6 +1477,10 @@
         }
 
         function openTeacherDashboard() {
+            if (!teacherUnlocked) {
+                promptTeacherPassword();
+                return;
+            }
             navigateTo('screen-teacher-dashboard');
             renderDashboardData();
             fetchBackendDashboardData();
